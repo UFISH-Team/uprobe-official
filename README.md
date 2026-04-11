@@ -1,7 +1,7 @@
 # 🧬 U-Probe Official Website
 
 [![License](https://img.shields.io/github/license/UFISH-Team/U-Probe)](https://github.com/UFISH-Team/U-Probe/blob/main/LICENSE)
-[![Documentation Status](https://ufish-team.github.io/uprobe-official/docs)](https://ufish-team.github.io/uprobe-official/docs/en/latest/?badge=latest)
+[![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://ufish-team.github.io/uprobe-official/)
 
 This repository contains the source code for the official website and documentation of **U-Probe**, a universal agentic probe design platform for imaging-based spatial-omics.
 
