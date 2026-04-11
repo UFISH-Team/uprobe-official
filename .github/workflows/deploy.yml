@@ -1,19 +1,15 @@
 name: Deploy to GitHub Pages
 
 on:
-  # 触发条件：当代码推送到 main 分支时自动部署
   push:
     branches: [main]
-  # 允许手动触发
   workflow_dispatch:
 
-# 设置 GitHub Pages 部署所需的权限
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# 允许并发部署
 concurrency:
   group: "pages"
   cancel-in-progress: false
@@ -25,20 +21,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: npm
+          cache: pnpm
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11' # 根据您的规范，使用 Python 3.11
+          python-version: '3.11' 
           cache: pip
 
       - name: Install Node dependencies
-        run: npm install
+        run: pnpm install
 
       - name: Install Python dependencies
         run: |
@@ -46,7 +47,7 @@ jobs:
           pip install -r docs/requirements.txt
 
       - name: Build VitePress site
-        run: npm run docs:build
+        run: pnpm run docs:build
 
       - name: Build Sphinx docs
         run: |
@@ -55,10 +56,6 @@ jobs:
 
       - name: Merge Sphinx docs into VitePress dist
         run: |
-          # VitePress 默认输出到 site/.vitepress/dist
-          # Sphinx 默认输出到 docs/build/html
-          # 我们将 Sphinx 的文档复制到 VitePress 的 dist 目录下的 docs 文件夹中
-          # 这样用户访问 /docs/ 时就能看到 Sphinx 文档了
           mkdir -p site/.vitepress/dist/docs
           cp -r docs/build/html/* site/.vitepress/dist/docs/
 
