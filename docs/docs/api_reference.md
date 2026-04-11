@@ -1,12 +1,10 @@
-API Reference
-=============
+# API Reference
 
 This page provides detailed documentation for all U-Probe classes, functions, and modules.
 
 .. currentmodule:: uprobe
 
-Main API
---------
+## Main API
 
 .. autoclass:: UProbeAPI
    :members:
@@ -14,16 +12,14 @@ Main API
    :show-inheritance:
    :special-members: __init__
 
-Attributes Module
------------------
+## Attributes Module
 
 .. automodule:: uprobe.attributes
    :members:
    :undoc-members:
    :show-inheritance:
 
-Generation Modules
-------------------
+## Generation Modules
 
 .. automodule:: uprobe.gen.fun
    :members:
@@ -40,24 +36,21 @@ Generation Modules
    :undoc-members:
    :show-inheritance:
 
-Processing Module
------------------
+## Processing Module
 
 .. automodule:: uprobe.process
    :members:
    :undoc-members:
    :show-inheritance:
 
-Tools Module
-------------
+## Tools Module
 
 .. automodule:: uprobe.tools
    :members:
    :undoc-members:
    :show-inheritance:
 
-Utilities
----------
+## Utilities
 
 .. automodule:: uprobe.utils
    :members:

@@ -8,13 +8,12 @@ hero:
   actions:
     - theme: brand
       text: Documentation
-      link: /uprobe-official/docs/index.html
-      target: _self
+      link: /docs/index
     - theme: alt
-      text: Launch App
-      link: https://your-uprobe-app-url.com
+      text: App
+      link: https://dyarchical-unrecuperative-corazon.ngrok-free.dev/
     - theme: alt
-      text: Read on bioRxiv
+      text: bioRxiv (Unpublished)
       link: https://biorxiv.org/
 
 features:

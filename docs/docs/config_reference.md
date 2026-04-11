@@ -1,15 +1,12 @@
-Configuration Reference
-=======================
+# Configuration Reference
 
 This page provides a complete reference for all configuration options in U-Probe's YAML files.
 
-Genomes Configuration (genomes.yaml)
-------------------------------------
+## Genomes Configuration (genomes.yaml)
 
-Required Fields
-~~~~~~~~~~~~~~~
+### Required Fields
 
-.. option:: fasta
+**`fasta`**
 
    **Type:** string
    
@@ -21,7 +18,7 @@ Required Fields
    
       fasta: "/data/genomes/hg38/hg38.fa"
 
-.. option:: gtf
+**`gtf`**
 
    **Type:** string
    
@@ -33,13 +30,13 @@ Required Fields
    
       gtf: "/data/genomes/hg38/gencode.v38.annotation.gtf"
 
-.. option:: align_index
+**`align_index`**
 
    **Type:** list of strings
    
    **Description:** List of aligners for which to build indices.
    
-   **Valid values:** ``bowtie2``, ``blast``
+   **Valid values:** `bowtie2`, `blast`
    
    **Example:**
    
@@ -49,10 +46,9 @@ Required Fields
         - bowtie2
         - blast
 
-Optional Fields
-~~~~~~~~~~~~~~~
+### Optional Fields
 
-.. option:: description
+**`description`**
 
    **Type:** string
    
@@ -64,7 +60,7 @@ Optional Fields
    
       description: "Human genome build 38 (GRCh38)"
 
-.. option:: species
+**`species`**
 
    **Type:** string
    
@@ -76,7 +72,7 @@ Optional Fields
    
       species: "Homo sapiens"
 
-.. option:: out
+**`out`**
 
    **Type:** string
    
@@ -88,7 +84,7 @@ Optional Fields
    
       out: "/data/genomes/hg38/indices"
 
-.. option:: jellyfish
+**`jellyfish`**
 
    **Type:** boolean
    
@@ -102,13 +98,11 @@ Optional Fields
    
       jellyfish: true
 
-Protocol Configuration (protocol.yaml)
---------------------------------------
+## Protocol Configuration (protocol.yaml)
 
-Core Settings
-~~~~~~~~~~~~~
+### Core Settings
 
-.. option:: name
+**`name`**
 
    **Type:** string
    
@@ -122,7 +116,7 @@ Core Settings
    
       name: "FISH_Experiment_v1"
 
-.. option:: genome
+**`genome`**
 
    **Type:** string
    
@@ -136,7 +130,7 @@ Core Settings
    
       genome: "human_hg38"
 
-.. option:: targets
+**`targets`**
 
    **Type:** list of strings
    
@@ -153,10 +147,9 @@ Core Settings
         - "ACTB"
         - "ENSG00000141510"
 
-Target Extraction (extracts)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Target Extraction (extracts)
 
-.. option:: extracts.target_region
+**`extracts.target_region`**
 
    **Type:** object
    
@@ -164,7 +157,7 @@ Target Extraction (extracts)
    
    **Description:** Configuration for extracting target sequences from the genome.
 
-.. option:: extracts.target_region.source
+**`extracts.target_region.source`**
 
    **Type:** string
    
@@ -174,9 +167,9 @@ Target Extraction (extracts)
    
    **Valid values:**
    
-   - ``exon`` - Extract from exonic regions only
-   - ``gene`` - Extract from entire gene regions (including introns)
-   - ``genome`` - Extract from specified genomic coordinates
+   - `exon` - Extract from exonic regions only
+   - `gene` - Extract from entire gene regions (including introns)
+   - `genome` - Extract from specified genomic coordinates
    
    **Example:**
    
@@ -186,7 +179,7 @@ Target Extraction (extracts)
         target_region:
           source: "exon"
 
-.. option:: extracts.target_region.length
+**`extracts.target_region.length`**
 
    **Type:** integer
    
@@ -202,7 +195,7 @@ Target Extraction (extracts)
         target_region:
           length: 120
 
-.. option:: extracts.target_region.overlap
+**`extracts.target_region.overlap`**
 
    **Type:** integer
    
@@ -218,7 +211,7 @@ Target Extraction (extracts)
         target_region:
           overlap: 20
 
-.. option:: extracts.target_region.coordinates
+**`extracts.target_region.coordinates`**
 
    **Type:** list of strings
    
@@ -237,7 +230,7 @@ Target Extraction (extracts)
             - "chr1:1000000-1001000"
             - "chr2:2000000-2001000"
 
-.. option:: extracts.target_region.gene_specific
+**`extracts.target_region.gene_specific`**
 
    **Type:** object
    
@@ -260,10 +253,9 @@ Target Extraction (extracts)
             TP53:
               source: "gene"
 
-Probe Design (probes)
-~~~~~~~~~~~~~~~~~~~~~
+### Probe Design (probes)
 
-.. option:: probes
+**`probes`**
 
    **Type:** object
    
@@ -271,7 +263,7 @@ Probe Design (probes)
    
    **Description:** Defines probe structures and composition. Keys are probe names.
 
-.. option:: probes.[probe_name].template
+**`probes.[probe_name].template`**
 
    **Type:** string
    
@@ -287,7 +279,7 @@ Probe Design (probes)
         main_probe:
           template: "{part1}{spacer}{part2}"
 
-.. option:: probes.[probe_name].expr
+**`probes.[probe_name].expr`**
 
    **Type:** string
    
@@ -303,7 +295,7 @@ Probe Design (probes)
         simple_probe:
           expr: "rc(target_region[0:25])"
 
-.. option:: probes.[probe_name].parts
+**`probes.[probe_name].parts`**
 
    **Type:** object
    
@@ -311,7 +303,7 @@ Probe Design (probes)
    
    **Description:** Definitions for each part referenced in the template.
 
-.. option:: probes.[probe_name].parts.[part_name].expr
+**`probes.[probe_name].parts.[part_name].expr`**
 
    **Type:** string
    
@@ -321,14 +313,14 @@ Probe Design (probes)
    
    **Available expressions:**
    
-   - ``target_region[start:end]`` - Slice of target sequence
-   - ``rc(sequence)`` - Reverse complement
-   - ``encoding[gene_name]['key']`` - Barcode lookup
-   - ``random_seq(length)`` - Random sequence
-   - ``probe_name[start:end]`` - Reference other probes
-   - ``'LITERAL'`` - Fixed sequence (in quotes)
+   - `target_region[start:end]` - Slice of target sequence
+   - `rc(sequence)` - Reverse complement
+   - `encoding[gene_name]['key']` - Barcode lookup
+   - `random_seq(length)` - Random sequence
+   - `probe_name[start:end]` - Reference other probes
+   - `'LITERAL'` - Fixed sequence (in quotes)
 
-.. option:: probes.[probe_name].parts.[part_name].length
+**`probes.[probe_name].parts.[part_name].length`**
 
    **Type:** integer
    
@@ -336,7 +328,7 @@ Probe Design (probes)
    
    **Description:** Required length for this part (used with slicing expressions).
 
-.. option:: probes.[probe_name].parts.[part_name].template
+**`probes.[probe_name].parts.[part_name].template`**
 
    **Type:** string
    
@@ -346,27 +338,28 @@ Probe Design (probes)
 
 Nested Parts Example:
 
-.. code-block:: yaml
 
-   probes:
-     complex_probe:
-       template: "{binding_region}{barcode_region}"
-       parts:
-         binding_region:
-           length: 25
-           expr: "rc(target_region[0:25])"
-         barcode_region:
-           template: "{bc1}GGG{bc2}"
-           parts:
-             bc1:
-               expr: "encoding[gene_name]['BC1']"
-             bc2:
-               expr: "encoding[gene_name]['BC2']"
+```yaml
+probes:
+  complex_probe:
+    template: "{binding_region}{barcode_region}"
+    parts:
+      binding_region:
+        length: 25
+        expr: "rc(target_region[0:25])"
+      barcode_region:
+        template: "{bc1}GGG{bc2}"
+        parts:
+          bc1:
+            expr: "encoding[gene_name]['BC1']"
+          bc2:
+            expr: "encoding[gene_name]['BC2']"
 
-Encoding System (encoding)
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-.. option:: encoding
+### Encoding System (encoding)
+
+**`encoding`**
 
    **Type:** object
    
@@ -374,13 +367,13 @@ Encoding System (encoding)
    
    **Description:** Maps gene names to barcode sequences or other identifiers.
 
-.. option:: encoding.[gene_name]
+**`encoding.[gene_name]`**
 
    **Type:** object
    
    **Description:** Barcode/identifier mappings for a specific gene.
 
-.. option:: encoding.[gene_name].[key]
+**`encoding.[gene_name].[key]`**
 
    **Type:** string
    
@@ -388,22 +381,23 @@ Encoding System (encoding)
 
 **Example:**
 
-.. code-block:: yaml
 
-   encoding:
-     GAPDH:
-       BC1: "ACGTACGTACGT"
-       BC2: "TGCATGCATGCA"
-       fluorophore: "AAAATTTTCCCCGGGG"
-     ACTB:
-       BC1: "CGATCGATCGAT"
-       BC2: "ATCGATCGATCG"
-       fluorophore: "TTTTAAAACCCCGGGG"
+```yaml
+encoding:
+  GAPDH:
+    BC1: "ACGTACGTACGT"
+    BC2: "TGCATGCATGCA"
+    fluorophore: "AAAATTTTCCCCGGGG"
+  ACTB:
+    BC1: "CGATCGATCGAT"
+    BC2: "ATCGATCGATCG"
+    fluorophore: "TTTTAAAACCCCGGGG"
 
-Quality Attributes (attributes)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-.. option:: attributes
+### Quality Attributes (attributes)
+
+**`attributes`**
 
    **Type:** object
    
@@ -411,7 +405,7 @@ Quality Attributes (attributes)
    
    **Description:** Defines quality metrics to calculate for probes.
 
-.. option:: attributes.[attribute_name].target
+**`attributes.[attribute_name].target`**
 
    **Type:** string
    
@@ -419,7 +413,7 @@ Quality Attributes (attributes)
    
    **Description:** Target sequence to analyze (probe name, part name, or "target_region").
 
-.. option:: attributes.[attribute_name].type
+**`attributes.[attribute_name].type`**
 
    **Type:** string
    
@@ -429,31 +423,32 @@ Quality Attributes (attributes)
    
    **Available types:**
    
-   - ``gc_content`` - GC content (0.0 to 1.0)
-   - ``annealing_temperature`` - Melting temperature (°C)
-   - ``self_match`` - Self-complementarity score
-   - ``fold_score`` - Secondary structure propensity
-   - ``n_mapped_genes`` - Off-target mapping count
-   - ``kmer_count`` - K-mer abundance
-   - ``length`` - Sequence length
-   - ``complexity_score`` - Sequence complexity
+   - `gc_content` - GC content (0.0 to 1.0)
+   - `annealing_temperature` - Melting temperature (°C)
+   - `self_match` - Self-complementarity score
+   - `fold_score` - Secondary structure propensity
+   - `n_mapped_genes` - Off-target mapping count
+   - `kmer_count` - K-mer abundance
+   - `length` - Sequence length
+   - `complexity_score` - Sequence complexity
 
 **Basic Attribute Example:**
 
-.. code-block:: yaml
 
-   attributes:
-     probe_gc:
-       target: main_probe
-       type: gc_content
-     probe_tm:
-       target: main_probe
-       type: annealing_temperature
+```yaml
+attributes:
+  probe_gc:
+    target: main_probe
+    type: gc_content
+  probe_tm:
+    target: main_probe
+    type: annealing_temperature
 
-Alignment-Based Attributes
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-.. option:: attributes.[attribute_name].aligner
+### Alignment-Based Attributes
+
+**`attributes.[attribute_name].aligner`**
 
    **Type:** string
    
@@ -461,9 +456,9 @@ Alignment-Based Attributes
    
    **Description:** Aligner to use for mapping analysis.
    
-   **Valid values:** ``bowtie2``, ``blast``
+   **Valid values:** `bowtie2`, `blast`
 
-.. option:: attributes.[attribute_name].min_mapq
+**`attributes.[attribute_name].min_mapq`**
 
    **Type:** integer
    
@@ -471,7 +466,7 @@ Alignment-Based Attributes
    
    **Default:** 30
 
-.. option:: attributes.[attribute_name].e_value
+**`attributes.[attribute_name].e_value`**
 
    **Type:** float
    
@@ -481,19 +476,20 @@ Alignment-Based Attributes
 
 **Example:**
 
-.. code-block:: yaml
 
-   attributes:
-     off_targets:
-       target: main_probe
-       type: n_mapped_genes
-       aligner: bowtie2
-       min_mapq: 30
+```yaml
+attributes:
+  off_targets:
+    target: main_probe
+    type: n_mapped_genes
+    aligner: bowtie2
+    min_mapq: 30
 
-K-mer Attributes
-~~~~~~~~~~~~~~~~
+```
 
-.. option:: attributes.[attribute_name].kmer_length
+### K-mer Attributes
+
+**`attributes.[attribute_name].kmer_length`**
 
    **Type:** integer
    
@@ -501,13 +497,13 @@ K-mer Attributes
    
    **Description:** Length of k-mers to count.
 
-.. option:: attributes.[attribute_name].kmer_threshold
+**`attributes.[attribute_name].kmer_threshold`**
 
    **Type:** integer
    
    **Description:** Abundance threshold for counting.
 
-.. option:: attributes.[attribute_name].kmer_file
+**`attributes.[attribute_name].kmer_file`**
 
    **Type:** string
    
@@ -515,20 +511,21 @@ K-mer Attributes
 
 **Example:**
 
-.. code-block:: yaml
 
-   attributes:
-     repetitive_kmers:
-       target: main_probe
-       type: kmer_count
-       kmer_length: 12
-       kmer_threshold: 100
-       kmer_file: "genome.jf"
+```yaml
+attributes:
+  repetitive_kmers:
+    target: main_probe
+    type: kmer_count
+    kmer_length: 12
+    kmer_threshold: 100
+    kmer_file: "genome.jf"
 
-Post-Processing (post_process)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-.. option:: post_process
+### Post-Processing (post_process)
+
+**`post_process`**
 
    **Type:** object
    
@@ -536,16 +533,15 @@ Post-Processing (post_process)
    
    **Description:** Defines filtering, sorting, and overlap removal.
 
-Filtering (post_process.filters)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### Filtering (post_process.filters)
 
-.. option:: post_process.filters
+**`post_process.filters`**
 
    **Type:** object
    
    **Description:** Filter criteria for probe quality control.
 
-.. option:: post_process.filters.[filter_name].condition
+**`post_process.filters.[filter_name].condition`**
 
    **Type:** string
    
@@ -553,42 +549,43 @@ Filtering (post_process.filters)
    
    **Description:** Boolean condition using attribute names and pandas syntax.
    
-   **Operators:** ``>=``, ``<=``, ``>``, ``<``, ``==``, ``!=``, ``&`` (and), ``|`` (or)
+   **Operators:** `>=`, `<=`, `>`, `<`, `==`, `!=`, `&` (and), `|` (or)
    
-   **Functions:** ``abs()``, mathematical functions
+   **Functions:** `abs()`, mathematical functions
 
 **Examples:**
 
-.. code-block:: yaml
 
-   post_process:
-     filters:
-       # Simple range filter
-       gc_content:
-         condition: "gc_content >= 0.4 & gc_content <= 0.6"
-       
-       # Threshold filter
-       off_targets:
-         condition: "off_targets <= 5"
-       
-       # Complex condition
-       quality_filter:
-         condition: "(gc_content >= 0.45 & melting_temp >= 55) | self_match < 0.8"
-       
-       # Using functions
-       tm_similarity:
-         condition: "abs(fwd_tm - rev_tm) <= 3"
+```yaml
+post_process:
+  filters:
+    # Simple range filter
+    gc_content:
+      condition: "gc_content >= 0.4 & gc_content <= 0.6"
+    
+    # Threshold filter
+    off_targets:
+      condition: "off_targets <= 5"
+    
+    # Complex condition
+    quality_filter:
+      condition: "(gc_content >= 0.45 & melting_temp >= 55) | self_match < 0.8"
+    
+    # Using functions
+    tm_similarity:
+      condition: "abs(fwd_tm - rev_tm) <= 3"
 
-Sorting (post_process.sorts)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-.. option:: post_process.sorts.is_ascending
+### Sorting (post_process.sorts)
+
+**`post_process.sorts.is_ascending`**
 
    **Type:** list of strings
    
    **Description:** Attributes to sort in ascending order (low to high).
 
-.. option:: post_process.sorts.is_descending
+**`post_process.sorts.is_descending`**
 
    **Type:** list of strings
    
@@ -596,21 +593,22 @@ Sorting (post_process.sorts)
 
 **Example:**
 
-.. code-block:: yaml
 
-   post_process:
-     sorts:
-       is_ascending:
-         - "off_targets"
-         - "self_match"
-       is_descending:
-         - "melting_temp"
-         - "gc_content"
+```yaml
+post_process:
+  sorts:
+    is_ascending:
+      - "off_targets"
+      - "self_match"
+    is_descending:
+      - "melting_temp"
+      - "gc_content"
 
-Overlap Removal (post_process.remove_overlap)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
 
-.. option:: post_process.remove_overlap.location_interval
+### Overlap Removal (post_process.remove_overlap)
+
+**`post_process.remove_overlap.location_interval`**
 
    **Type:** integer
    
@@ -618,17 +616,17 @@ Overlap Removal (post_process.remove_overlap)
 
 **Example:**
 
-.. code-block:: yaml
 
-   post_process:
-     remove_overlap:
-       location_interval: 25
+```yaml
+post_process:
+  remove_overlap:
+    location_interval: 25
 
-Expression Reference
---------------------
+```
 
-Target Region Expressions
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+## Expression Reference
+
+### Target Region Expressions
 
 .. list-table::
    :header-rows: 1
@@ -636,17 +634,16 @@ Target Region Expressions
 
    * - Expression
      - Description
-   * - ``target_region``
+   * - `target_region`
      - Entire target sequence
-   * - ``target_region[0:20]``
+   * - `target_region[0:20]`
      - First 20 bases
-   * - ``target_region[-20:]``
+   * - `target_region[-20:]`
      - Last 20 bases
-   * - ``target_region[10:30]``
+   * - `target_region[10:30]`
      - Bases 10-29 (20 bases)
 
-Sequence Manipulation
-~~~~~~~~~~~~~~~~~~~~~
+### Sequence Manipulation
 
 .. list-table::
    :header-rows: 1
@@ -654,15 +651,14 @@ Sequence Manipulation
 
    * - Expression
      - Description
-   * - ``rc(sequence)``
+   * - `rc(sequence)`
      - Reverse complement
-   * - ``random_seq(length)``
+   * - `random_seq(length)`
      - Random DNA sequence
-   * - ``'ACGTACGT'``
+   * - `'ACGTACGT'`
      - Fixed literal sequence
 
-Barcode Access
-~~~~~~~~~~~~~~
+### Barcode Access
 
 .. list-table::
    :header-rows: 1
@@ -670,13 +666,12 @@ Barcode Access
 
    * - Expression
      - Description
-   * - ``encoding[gene_name]['BC1']``
+   * - `encoding[gene_name]['BC1']`
      - Barcode for current gene
-   * - ``encoding['GAPDH']['BC1']``
+   * - `encoding['GAPDH']['BC1']`
      - Barcode for specific gene
 
-Probe References
-~~~~~~~~~~~~~~~~
+### Probe References
 
 .. list-table::
    :header-rows: 1
@@ -684,15 +679,14 @@ Probe References
 
    * - Expression
      - Description
-   * - ``probe_1``
+   * - `probe_1`
      - Entire probe_1 sequence
-   * - ``probe_1[0:10]``
+   * - `probe_1[0:10]`
      - First 10 bases of probe_1
-   * - ``probe_1:part1``
+   * - `probe_1:part1`
      - Specific part of probe_1
 
-Context Variables
-~~~~~~~~~~~~~~~~~
+### Context Variables
 
 .. list-table::
    :header-rows: 1
@@ -700,15 +694,14 @@ Context Variables
 
    * - Variable
      - Description
-   * - ``gene_name``
+   * - `gene_name`
      - Current gene name
-   * - ``gene_id``
+   * - `gene_id`
      - Current gene ID
-   * - ``target_region``
+   * - `target_region`
      - Current target sequence
 
-Validation and Error Handling
-------------------------------
+## Validation and Error Handling
 
 Configuration validation occurs at multiple stages:
 
@@ -717,8 +710,7 @@ Configuration validation occurs at multiple stages:
 3. **Expression validation** - Probe expressions are valid
 4. **Runtime validation** - Attribute calculations succeed
 
-Common Validation Errors
-~~~~~~~~~~~~~~~~~~~~~~~~~
+### Common Validation Errors
 
 .. list-table::
    :header-rows: 1
@@ -737,61 +729,62 @@ Common Validation Errors
    * - "No probes after filtering"
      - Relax filter conditions
 
-Best Practices
---------------
+## Best Practices
 
-Organization
-~~~~~~~~~~~~
+### Organization
 
-.. code-block:: yaml
 
-   # Use descriptive names
-   name: "FISH_Neuronal_Markers_v2.1"
-   
-   # Group related targets
-   targets:
-     # Housekeeping genes
-     - "GAPDH"
-     - "ACTB"
-     # Neuronal markers  
-     - "MAP2"
-     - "NEUN"
+```yaml
+# Use descriptive names
+name: "FISH_Neuronal_Markers_v2.1"
 
-Documentation
-~~~~~~~~~~~~~
+# Group related targets
+targets:
+  # Housekeeping genes
+  - "GAPDH"
+  - "ACTB"
+  # Neuronal markers  
+  - "MAP2"
+  - "NEUN"
 
-.. code-block:: yaml
+```
 
-   # Document design rationale
-   name: "Optimized_FISH_Design"
-   # Design notes:
-   # - 25bp binding region for high specificity
-   # - 6bp poly-T spacer to reduce steric hindrance  
-   # - Strict GC content for uniform hybridization
-   
-   probes:
-     fish_probe:
-       template: "{binding}TTTTTT{fluorophore}"
+### Documentation
 
-Validation
-~~~~~~~~~~
 
-.. code-block:: yaml
+```yaml
+# Document design rationale
+name: "Optimized_FISH_Design"
+# Design notes:
+# - 25bp binding region for high specificity
+# - 6bp poly-T spacer to reduce steric hindrance  
+# - Strict GC content for uniform hybridization
 
-   # Start with relaxed filters for testing
-   post_process:
-     filters:
-       gc_content:
-         condition: "gc_content >= 0.3 & gc_content <= 0.7"
-   
-   # Then tighten based on results
-   # gc_content:
-   #   condition: "gc_content >= 0.45 & gc_content <= 0.55"
+probes:
+  fish_probe:
+    template: "{binding}TTTTTT{fluorophore}"
 
-Next Steps
-----------
+```
 
-- Try the :doc:`examples` with different configurations
-- Learn about :doc:`workflows` for your application
-- Check :doc:`troubleshooting` for common issues
-- Explore the :doc:`python_api` for programmatic access
+### Validation
+
+
+```yaml
+# Start with relaxed filters for testing
+post_process:
+  filters:
+    gc_content:
+      condition: "gc_content >= 0.3 & gc_content <= 0.7"
+
+# Then tighten based on results
+# gc_content:
+#   condition: "gc_content >= 0.45 & gc_content <= 0.55"
+
+```
+
+## Next Steps
+
+- Try the [examples](./examples.md) with different configurations
+- Learn about [workflows](./workflows.md) for your application
+- Check [troubleshooting](./troubleshooting.md) for common issues
+- Explore the [python_api](./python_api.md) for programmatic access

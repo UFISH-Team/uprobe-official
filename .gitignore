@@ -1,9 +1,5 @@
 node_modules
 solfware-ui
 # VitePress
-site/.vitepress/dist
-site/.vitepress/cache
-
-# Sphinx
-docs/build/
-docs/_build/
+docs/.vitepress/dist
+docs/.vitepress/cache

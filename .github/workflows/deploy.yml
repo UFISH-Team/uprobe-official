@@ -49,24 +49,13 @@ jobs:
       - name: Build VitePress site
         run: pnpm run docs:build
 
-      - name: Build Sphinx docs
-        run: |
-          cd docs
-          make html
-
-      - name: Merge Sphinx docs into VitePress dist
-        run: |
-          mkdir -p site/.vitepress/dist/docs
-          cp -r docs/build/html/* site/.vitepress/dist/docs/
-          touch site/.vitepress/dist/.nojekyll
-
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site/.vitepress/dist
+          path: docs/.vitepress/dist
 
   deploy:
     environment:
