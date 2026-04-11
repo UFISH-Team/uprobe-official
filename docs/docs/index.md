@@ -1,7 +1,8 @@
 # 🧬 U-Probe: Universal Agentic Probe Design Platform
 
 [![License](https://img.shields.io/github/license/UFISH-Team/U-Probe)](https://github.com/UFISH-Team/U-Probe/blob/main/LICENSE)
-[![Python Version](https://img.shields.io/badge/python-3.8+-blue)](https://www.python.org/downloads/)
+[![Python Version](https://img.shields.io/badge/python-3.7+-blue)](https://www.python.org/downloads/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/UFISH-Team/U-Probe)
 
 **U-Probe** is a universal and agentic probe design platform designed for imaging-based spatial-omics and various molecular biology applications (such as *in situ* hybridization, targeted sequencing, spatial transcriptomics, etc.). It provides a comprehensive automated workflow from target gene selection to final probe generation, with a special emphasis on **agentic intelligence, universal declarative architecture**, and **ease of use**.
 
