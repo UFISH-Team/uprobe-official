@@ -34,9 +34,7 @@ pip install uprobe
 ```
 
 Run a complete probe design workflow:
-```
-
-bash
+```bash
 uprobe run --protocol protocol.yaml --genomes genomes.yaml --output results/
 ```
 

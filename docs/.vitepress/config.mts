@@ -11,7 +11,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/docs/index' },
-      { text: 'Launch App', link: 'https://your-uprobe-app-url.com' },
+      { text: 'Launch App', link: 'https://dyarchical-unrecuperative-corazon.ngrok-free.dev/' },
       { text: 'bioRxiv', link: 'https://biorxiv.org/' }
     ],
 
