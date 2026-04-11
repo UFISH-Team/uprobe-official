@@ -8,7 +8,8 @@ hero:
   actions:
     - theme: brand
       text: Documentation
-      link: /docs/index.html
+      link: /uprobe-official/docs/index.html
+      target: _self
     - theme: alt
       text: Launch App
       link: https://your-uprobe-app-url.com

@@ -58,6 +58,7 @@ jobs:
         run: |
           mkdir -p site/.vitepress/dist/docs
           cp -r docs/build/html/* site/.vitepress/dist/docs/
+          touch site/.vitepress/dist/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
