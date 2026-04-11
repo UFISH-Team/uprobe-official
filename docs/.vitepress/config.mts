@@ -30,15 +30,12 @@ export default defineConfig({
         items: [
           { text: 'CLI Reference', link: '/docs/cli' },
           { text: 'Python API', link: '/docs/python_api' },
-          { text: 'Workflows', link: '/docs/workflow' },
           { text: 'Examples', link: '/docs/examples' }
         ]
       },
       {
         text: 'Reference',
         items: [
-          { text: 'API Reference', link: '/docs/api_reference' },
-          { text: 'Config Reference', link: '/docs/config_reference' },
           { text: 'Troubleshooting', link: '/docs/troubleshooting' },
           { text: 'FAQ', link: '/docs/faq' }
         ]

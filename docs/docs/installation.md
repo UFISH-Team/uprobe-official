@@ -26,15 +26,13 @@ U-Probe requires several bioinformatics tools to be installed on your system:
 ```bash
 sudo apt-get update
 sudo apt-get install bowtie2 ncbi-blast+
-
 ```
 
 **Installing on macOS:**
+```
 
-
-```bash
+bash
 brew install bowtie2 blast
-
 ```
 
 **Installing on Windows:**
@@ -50,7 +48,6 @@ The easiest way to install U-Probe is using pip:
 
 ```bash
 pip install uprobe
-
 ```
 
 This installs U-Probe and its Python dependencies. After installation, you can use the `uprobe` command directly.
@@ -58,13 +55,12 @@ This installs U-Probe and its Python dependencies. After installation, you can u
 ### Method 2: Install from Source
 
 For the latest development version or to contribute to U-Probe:
+```
 
-
-```bash
+bash
 git clone https://github.com/UFISH-Team/U-Probe.git
 cd u-probe
 pip install .
-
 ```
 
 ### Method 3: Development Installation
@@ -76,7 +72,6 @@ If you plan to modify U-Probe or contribute to development:
 git clone https://github.com/UFISH-Team/U-Probe.git
 cd u-probe
 pip install -e .
-
 ```
 
 This creates an editable installation where changes to the source code are immediately reflected.
@@ -84,15 +79,14 @@ This creates an editable installation where changes to the source code are immed
 ### Method 4: Conda Environment (Recommended for Bioinformatics)
 
 For a complete bioinformatics environment:
+```
 
-
-```bash
+bash
 git clone https://github.com/UFISH-Team/U-Probe.git
 cd u-probe
 conda env create -f environments.yaml
 conda activate uprobe
 pip install .
-
 ```
 
 ## Verifying Installation
@@ -109,7 +103,6 @@ uprobe --help
 
 # Test with a simple command
 uprobe validate-targets --help
-
 ```
 
 You should see the U-Probe version and help information without errors.
@@ -119,11 +112,10 @@ You should see the U-Probe version and help information without errors.
 For deployment on systems without Python, you can create standalone executables:
 
 ### Prerequisites
+```
 
-
-```bash
+bash
 pip install pyinstaller
-
 ```
 
 ### Build Process
@@ -140,15 +132,14 @@ pyinstaller --onefile --name uprobe \
   uprobe/__main__.py
 
 # The executable will be created in dist/uprobe
-
 ```
 
 ### Advanced Build with Script
 
 Create a build script for reproducible builds:
+```
 
-
-```bash
+bash
 #!/bin/bash
 echo "Building U-Probe standalone executable..."
 
@@ -170,7 +161,6 @@ pyinstaller --onefile --name uprobe \
 
 echo "✅ Build complete! Executable available in dist/uprobe"
 echo "File size: $(du -h dist/uprobe | cut -f1)"
-
 ```
 
 Save this as `build.sh`, make it executable (`chmod +x build.sh`), and run it.
@@ -196,16 +186,14 @@ RUN pip install .
 
 # Set entrypoint
 ENTRYPOINT ["uprobe"]
-
 ```
 
 Build and run:
+```
 
-
-```bash
+bash
 docker build -t uprobe .
 docker run -v $(pwd)/data:/data uprobe --help
-
 ```
 
 ## Troubleshooting Installation
@@ -220,21 +208,19 @@ Solution: Ensure you're in the correct environment and U-Probe is properly insta
 ```bash
 pip list | grep uprobe
 python -c "import uprobe; print(uprobe.__version__)"
-
 ```
 
 **Command not found: uprobe**
 
 Solution: Check if the installation directory is in your PATH:
+```
 
-
-```bash
+bash
 # Find where uprobe is installed
 which uprobe
 
 # If not found, try with python -m
 python -m uprobe --help
-
 ```
 
 **Missing system dependencies**
@@ -248,19 +234,17 @@ Solution: Use `--user` flag for pip or use a virtual environment:
 
 ```bash
 pip install --user uprobe
-
 ```
 
 ### Virtual Environment Setup
 
 Using virtualenv:
+```
 
-
-```bash
+bash
 python -m venv uprobe_env
 source uprobe_env/bin/activate  # On Windows: uprobe_env\Scripts\activate
 pip install uprobe
-
 ```
 
 Using conda:
@@ -270,7 +254,6 @@ Using conda:
 conda create -n uprobe python=3.8
 conda activate uprobe
 pip install uprobe
-
 ```
 
 ## Next Steps

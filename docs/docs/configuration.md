@@ -28,18 +28,16 @@ genome_name:
     - bowtie2
     - blast
   jellyfish: false
-
 ```
 
 ### Required Fields
 
 **fasta** (*string*)
   Path to the genome FASTA file. This file contains the reference genome sequences.
+```
 
-  
-```yaml
+yaml
   fasta: "/data/genomes/hg38/hg38.fa"
-
 ```
 
 **gtf** (*string*)
@@ -48,7 +46,6 @@ genome_name:
   
 ```yaml
   gtf: "/data/genomes/hg38/gencode.v38.annotation.gtf"
-
 ```
 
 **align_index** (*list*)
@@ -56,13 +53,12 @@ genome_name:
   
   - `bowtie2` - For fast sequence alignment
   - `blast` - For sequence similarity searches
+```
 
-  
-```yaml
+yaml
   align_index:
     - bowtie2
     - blast
-
 ```
 
 ### Optional Fields
@@ -73,16 +69,14 @@ genome_name:
   
 ```yaml
   description: "Human genome build 38 (GRCh38)"
-
 ```
 
 **species** (*string*)
   Scientific species name.
+```
 
-  
-```yaml
+yaml
   species: "Homo sapiens"
-
 ```
 
 **out** (*string*)
@@ -91,16 +85,14 @@ genome_name:
   
 ```yaml
   out: "/data/genomes/hg38/indices"
-
 ```
 
 **jellyfish** (*boolean*)
   Whether to build Jellyfish k-mer index. Used for k-mer counting attributes. Default: false.
+```
 
-  
-```yaml
+yaml
   jellyfish: true
-
 ```
 
 ### Complete Example
@@ -127,7 +119,6 @@ mouse_mm39:
   align_index:
     - bowtie2
   jellyfish: false
-
 ```
 
 ## Protocol Configuration (protocol.yaml)
@@ -135,9 +126,9 @@ mouse_mm39:
 The protocol file defines the complete probe design workflow, from target selection to final filtering.
 
 ### Basic Structure
+```
 
-
-```yaml
+yaml
 name: "ExperimentName"
 genome: "genome_name"
 targets: [...]
@@ -146,7 +137,6 @@ probes: {...}
 encoding: {...}
 attributes: {...}
 post_process: {...}
-
 ```
 
 ### Core Sections
@@ -157,16 +147,14 @@ post_process: {...}
   
 ```yaml
   name: "FISH_Probes_v1"
-
 ```
 
 **genome** (*string*)
   Name of the genome to use (must match a key in genomes.yaml).
+```
 
-  
-```yaml
+yaml
   genome: "human_hg38"
-
 ```
 
 **targets** (*list*)
@@ -179,21 +167,19 @@ post_process: {...}
     - "ACTB"
     - "TP53"
     - "ENSG00000141510"  # Gene IDs also supported
-
 ```
 
 ### Target Extraction (extracts)
 
 Defines how to extract target sequences from the genome.
+```
 
-
-```yaml
+yaml
 extracts:
   target_region:
     source: "exon"        # Where to extract from
     length: 120           # Length of each extract
     overlap: 10           # Overlap between adjacent extracts
-
 ```
 
 **source** options:
@@ -222,13 +208,12 @@ extracts:
       - "chr1:1000000-1002000"
       - "chr2:500000-501000"
       - "chrX:10000000-10001000"
-
 ```
 
 For gene-specific parameters:
+```
 
-
-```yaml
+yaml
 extracts:
   target_region:
     source: "exon"
@@ -240,7 +225,6 @@ extracts:
         overlap: 30
       TP53:
         source: "gene"  # Extract from entire gene for this target
-
 ```
 
 ### Probe Design (probes)
@@ -264,7 +248,6 @@ probes:
       part3:
         length: 15
         expr: "rc(target_region[15:30])"
-
 ```
 
 **template** (*string*)
@@ -278,13 +261,12 @@ probes:
 Parts can use various expressions:
 
 **Direct sequence slicing:**
+```
 
-
-```yaml
+yaml
 part1:
   length: 20
   expr: "target_region[0:20]"  # First 20 bases
-
 ```
 
 **Reverse complement:**
@@ -294,16 +276,14 @@ part1:
 part2:
   length: 25
   expr: "rc(target_region[10:35])"  # Reverse complement
-
 ```
 
 **Fixed sequences:**
+```
 
-
-```yaml
+yaml
 primer:
   expr: "'ACGTACGTACGT'"  # Fixed sequence (note quotes)
-
 ```
 
 **Barcode lookup:**
@@ -312,17 +292,15 @@ primer:
 ```yaml
 barcode:
   expr: "encoding[gene_name]['BC1']"
-
 ```
 
 **Random sequences:**
+```
 
-
-```yaml
+yaml
 spacer:
   length: 8
   expr: "random_seq(8)"
-
 ```
 
 **Reference other probes:**
@@ -334,15 +312,14 @@ probe_2:
   parts:
     part1:
       expr: "probe_1[0:15]"  # First 15 bases of probe_1
-
 ```
 
 ### Nested Templates
 
 For complex probe structures:
+```
 
-
-```yaml
+yaml
 probes:
   main_probe:
     template: "{binding_region}{barcode_region}"
@@ -360,7 +337,6 @@ probes:
         parts:
           barcode:
             expr: "encoding[gene_name]['BC1']"
-
 ```
 
 ### Encoding System (encoding)
@@ -382,15 +358,14 @@ encoding:
     BC1: "GCTAGCTAGCTAGCT"
     BC2: "CTAGCTAGCTAGCTA"
     fluorophore: "CCCCGGGGAAAATTTT"
-
 ```
 
 ### Quality Attributes (attributes)
 
 Defines quality metrics to calculate for probes.
+```
 
-
-```yaml
+yaml
 attributes:
   # GC content of the main probe
   probe_gc:
@@ -426,7 +401,6 @@ attributes:
     kmer_length: 10
     kmer_threshold: 100
     kmer_file: "genome.jf"
-
 ```
 
 ### Attribute Types
@@ -482,15 +456,14 @@ post_process:
   
   remove_overlap:
     location_interval: 10
-
 ```
 
 ### Filter Conditions
 
 Use pandas-style boolean expressions:
+```
 
-
-```yaml
+yaml
 filters:
   # Range filters
   gc_range:
@@ -503,7 +476,6 @@ filters:
   # Complex conditions
   quality_filter:
     condition: "(gc_content >= 0.45 & melting_temp >= 50) | self_match < 0.8"
-
 ```
 
 ### Sorting Options
@@ -517,18 +489,16 @@ sorts:
   is_descending:   # Sort descending (high to low)
     - "self_match"
     - "fold_score"
-
 ```
 
 ### Overlap Removal
 
 Remove probes that are too close to each other:
+```
 
-
-```yaml
+yaml
 remove_overlap:
   location_interval: 15  # Minimum distance in base pairs
-
 ```
 
 ### Complete Example
@@ -610,7 +580,6 @@ post_process:
   
   remove_overlap:
     location_interval: 15
-
 ```
 
 ## Best Practices
@@ -618,9 +587,9 @@ post_process:
 ### File Organization
 
 Keep configuration files organized:
+```
 
-
-```text
+text
 project/
 ├── config/
 │   ├── genomes.yaml
@@ -629,7 +598,6 @@ project/
 │   └── sequencing_protocol.yaml
 ├── data/
 └── results/
-
 ```
 
 ### Version Control
@@ -643,18 +611,16 @@ name: "FISH_v2.1"
 version: "2.1"
 date: "2024-01-15"
 description: "Updated probe design with stricter filters"
-
 ```
 
 ### Validation
 
 Always validate configurations before large runs:
+```
 
-
-```bash
+bash
 # Test with a small subset
 uprobe validate-targets -p protocol.yaml -g genomes.yaml
-
 ```
 
 ### Documentation
@@ -676,7 +642,6 @@ probes:
   fish_probe:
     template: "{binding_region}TTTTTT{fluorophore_binding}"
     # ... rest of configuration
-
 ```
 
 ## Next Steps
@@ -686,7 +651,7 @@ Now that you understand configuration files:
 1. Try the examples in [examples](./examples.md)
 2. Learn about the [cli](./cli.md) for running your configurations  
 3. Explore advanced [workflows](./workflows.md)
-4. Check the complete [config_reference](./config_reference.md) for all options
+4. Check the complete configuration guide for all options
 
 ::: tip Tip
 Start with simple configurations and gradually add complexity. Use the `--raw` flag to inspect intermediate results and understand how your configuration affects the output.

@@ -31,15 +31,13 @@ Install U-Probe with pip:
 
 ```bash
 pip install uprobe
-
 ```
 
 Run a complete probe design workflow:
+```
 
-
-```bash
+bash
 uprobe run --protocol protocol.yaml --genomes genomes.yaml --output results/
-
 ```
 
 For detailed installation instructions and usage examples, see the [installation](./installation.md) and [quickstart](./quickstart.md) guides.
@@ -64,15 +62,12 @@ Learn how to use U-Probe effectively:
 
 * [cli](./cli.md) - Command-line interface reference
 * [python_api](./python_api.md) - Python API guide
-* [workflows](./workflows.md) - Common workflows and best practices
 * [examples](./examples.md) - Real-world examples and tutorials
 
 ### Reference
 
 Detailed reference documentation:
 
-* [api_reference](./api_reference.md) - Complete API documentation
-* [config_reference](./config_reference.md) - Configuration file reference
 * [troubleshooting](./troubleshooting.md) - Common issues and solutions
 * [faq](./faq.md) - Frequently asked questions
 

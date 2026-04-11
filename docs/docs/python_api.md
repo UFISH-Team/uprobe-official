@@ -37,15 +37,14 @@ probes_df = uprobe.run_workflow(
 # Access the results
 print(f"Generated {len(probes_df)} probes")
 print(probes_df.head())
-
 ```
 
 ### Step-by-Step Workflow
 
 For more control over the process:
+```
 
-
-```python
+python
 import pandas as pd
 from pathlib import Path
 from uprobe import UProbeAPI
@@ -89,19 +88,18 @@ print(f"Final probes: {len(df_final)}")
 
 # Step 7: Generate barcodes (optional)
 barcodes = uprobe.generate_barcodes()
-
 ```
 
 ## API Reference
 
 ### UProbeAPI Class
 
-.. currentmodule:: uprobe
+**Current Module:** `uprobe`
 
-.. autoclass:: UProbeAPI
-   :members:
-   :undoc-members:
-   :show-inheritance:
+### Class: `UProbeAPI`
+
+> API documentation for `UProbeAPI` class.
+
 
 ### Configuration Handling
 
@@ -116,13 +114,12 @@ uprobe = UProbeAPI(
     genomes_config=Path("genomes.yaml"),
     output_dir=Path("results")
 )
-
 ```
 
 **From Dictionaries:**
+```
 
-
-```python
+python
 protocol_dict = {
     'name': 'MyExperiment',
     'genome': 'human_hg38',
@@ -143,7 +140,6 @@ uprobe = UProbeAPI(
     genomes_config=genomes_dict,
     output_dir=Path("results")
 )
-
 ```
 
 ## Working with Results
@@ -159,17 +155,15 @@ U-Probe returns results as pandas DataFrames with the following structure:
 df_targets = uprobe.generate_target_seqs()
 print(df_targets.columns)
 # ['gene_name', 'gene_id', 'target_region', 'chromosome', 'start', 'end', 'strand']
-
 ```
 
 **Probe DataFrame:**
+```
 
-
-```python
+python
 df_probes = uprobe.construct_probes(df_targets)  
 print(df_probes.columns)
 # ['probe_1', 'probe_2', ...]  # Depends on probe configuration
-
 ```
 
 **Final DataFrame:**
@@ -179,13 +173,12 @@ print(df_probes.columns)
 df_final = uprobe.post_process_probes(df_combined)
 print(df_final.columns)
 # ['gene_name', 'target_region', 'probe_1', 'gc_content', 'melting_temp', ...]
-
 ```
 
 ### Data Analysis and Visualization
+```
 
-
-```python
+python
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -218,7 +211,6 @@ plt.ylabel('Number of Probes')
 plt.xticks(rotation=45)
 plt.tight_layout()
 plt.show()
-
 ```
 
 ### Custom Filtering and Selection
@@ -244,7 +236,6 @@ best_probes = (df_final
 # Export filtered results
 high_quality_probes.to_csv('high_quality_probes.csv', index=False)
 best_probes.to_csv('best_probes.csv', index=False)
-
 ```
 
 ## Advanced Usage
@@ -252,9 +243,9 @@ best_probes.to_csv('best_probes.csv', index=False)
 ### Dynamic Configuration
 
 Build configurations programmatically:
+```
 
-
-```python
+python
 def create_fish_protocol(genes, experiment_name):
     """Create a FISH protocol configuration for given genes."""
     
@@ -317,7 +308,6 @@ uprobe = UProbeAPI(
     genomes_config=Path('genomes.yaml'),
     output_dir=Path('results')
 )
-
 ```
 
 ### Batch Processing
@@ -381,15 +371,14 @@ results = batch_process_protocols('protocols/', 'genomes.yaml', 'batch_results/'
 successful = sum(1 for r in results.values() if r['success'])
 total = len(results)
 print(f"\nBatch processing complete: {successful}/{total} successful")
-
 ```
 
 ### Parallel Processing
 
 Use multiprocessing for large datasets:
+```
 
-
-```python
+python
 from multiprocessing import Pool
 from functools import partial
 
@@ -426,7 +415,6 @@ def parallel_gene_processing(all_genes, protocol_template, genomes_config, batch
     # Combine results
     combined_df = pd.concat(results, ignore_index=True)
     return combined_df
-
 ```
 
 ## Error Handling
@@ -484,15 +472,14 @@ def robust_probe_design(protocol_path, genomes_path, output_path):
     except Exception as e:
         logging.error(f"Unexpected error: {e}")
         return None
-
 ```
 
 ## Integration Examples
 
 ### Jupyter Notebook Integration
+```
 
-
-```python
+python
 # In a Jupyter notebook
 %matplotlib inline
 import pandas as pd
@@ -528,7 +515,6 @@ axes[1,1].set_title('Probes per Gene')
 
 plt.tight_layout()
 plt.show()
-
 ```
 
 ### Flask Web Application
@@ -581,15 +567,14 @@ def design_probes():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
 ```
 
 ## Best Practices
 
 ### Memory Management
+```
 
-
-```python
+python
 # For large datasets, process in chunks
 def process_large_dataset(genes, chunk_size=100):
     all_results = []
@@ -608,7 +593,6 @@ def process_large_dataset(genes, chunk_size=100):
         del uprobe, chunk_results
         
     return pd.concat(all_results, ignore_index=True)
-
 ```
 
 ### Configuration Validation
@@ -631,13 +615,12 @@ def validate_protocol(protocol_dict):
     
     # Add more validation as needed
     return True
-
 ```
 
 ### Logging Configuration
+```
 
-
-```python
+python
 import logging
 
 # Configure logging for U-Probe
@@ -653,7 +636,6 @@ logging.basicConfig(
 # Now U-Probe will log to both file and console
 uprobe = UProbeAPI(protocol_config, genomes_config, output_dir)
 results = uprobe.run_workflow()
-
 ```
 
 ## Next Steps
@@ -662,7 +644,7 @@ Now that you understand the Python API:
 
 1. Explore [examples](./examples.md) for real-world use cases
 2. Check [workflows](./workflows.md) for common patterns  
-3. Review the complete [api_reference](./api_reference.md)
+3. Review the complete Python API documentation
 4. Learn about [troubleshooting](./troubleshooting.md) for common issues
 
 ::: info Note

@@ -53,15 +53,14 @@ grep -i "GAPDH" /path/to/annotation.gtf
 # List all gene names
 awk '$3=="gene"' /path/to/annotation.gtf | \
 grep -o 'gene_name "[^"]*"' | sort | uniq
-
 ```
 
 ### Can I design probes for multiple species?
 
 Yes! Create separate genome configurations for each species:
+```
 
-
-```yaml
+yaml
 # genomes.yaml
 human_hg38:
   fasta: "/data/human/hg38.fa"
@@ -70,7 +69,6 @@ human_hg38:
 mouse_mm39:
   fasta: "/data/mouse/mm39.fa" 
   gtf: "/data/mouse/mm39.gtf"
-
 ```
 
 Then use separate protocols for each species or design cross-species probes with appropriate attributes.
@@ -88,7 +86,6 @@ extracts:
     coordinates:
       - "chr1:1000000-1002000"
       - "chr2:500000-501000"
-
 ```
 
 ### What's the difference between "exon", "gene", and "genome" extraction?
@@ -107,9 +104,9 @@ Choose based on your application:
 ### How do I design FISH probes?
 
 Basic FISH probe configuration:
+```
 
-
-```yaml
+yaml
 probes:
   fish_probe:
     template: "{target_binding}TTTTTT{fluorophore_site}"
@@ -119,7 +116,6 @@ probes:
         expr: "rc(target_region[0:25])"
       fluorophore_site:
         expr: "encoding[gene_name]['fluorophore']"
-
 ```
 
 See [examples](./examples.md) for complete FISH configurations.
@@ -144,15 +140,14 @@ probes:
       seq:
         length: 22
         expr: "rc(target_region[-22:])"
-
 ```
 
 ### Can I use custom sequences in my probes?
 
 Yes! Use literal sequences in quotes:
+```
 
-
-```yaml
+yaml
 probes:
   custom_probe:
     template: "{primer}{target_binding}{adapter}"
@@ -164,7 +159,6 @@ probes:
         expr: "target_region[0:25]"
       adapter:
         expr: "'TGCATGCA'"
-
 ```
 
 ### How do I reference other probes in expressions?
@@ -185,7 +179,6 @@ probes:
     parts:
       partial:
         expr: "probe_1[5:15]"  # Uses part of probe_1
-
 ```
 
 ## Quality Control
@@ -193,9 +186,9 @@ probes:
 ### What quality metrics should I use?
 
 Essential attributes for most applications:
+```
 
-
-```yaml
+yaml
 attributes:
   gc_content:
     target: main_probe
@@ -210,7 +203,6 @@ attributes:
   secondary_structure:
     target: main_probe
     type: self_match
-
 ```
 
 ### How do I set appropriate filter thresholds?
@@ -228,7 +220,6 @@ post_process:
     # Then tighten for final design
     # gc_content:
     #   condition: "gc_content >= 0.45 & gc_content <= 0.55"
-
 ```
 
 Use the `--raw` flag to examine distributions before setting final thresholds.
@@ -252,9 +243,9 @@ Use `uprobe --verbose run --raw` to diagnose.
 2. **Use efficient extraction**: "exon" is faster than "gene"
 3. **Reduce expensive attributes**: Skip fold_score and kmer_count for initial designs
 4. **Process in batches**: Split large target lists
+```
 
-
-```yaml
+yaml
 # Fast configuration
 extracts:
   target_region:
@@ -266,7 +257,6 @@ attributes:
   gc_content:
     target: main_probe
     type: gc_content
-
 ```
 
 ### How much memory does U-Probe need?
@@ -291,7 +281,6 @@ Yes! U-Probe is designed for cluster usage:
 #SBATCH --mem=32G
 
 uprobe run -p protocol.yaml -g genomes.yaml -t 16
-
 ```
 
 ## Output and Results
@@ -331,9 +320,9 @@ Standard columns include:
 ### Can I export results in other formats?
 
 U-Probe outputs CSV files which can be easily converted:
+```
 
-
-```python
+python
 import pandas as pd
 
 # Read CSV
@@ -343,7 +332,6 @@ df = pd.read_csv('results/probes.csv')
 df.to_excel('probes.xlsx', index=False)
 df.to_json('probes.json', orient='records')
 df.to_parquet('probes.parquet')
-
 ```
 
 ### How do I select the best probes from results?
@@ -366,7 +354,6 @@ high_quality = df[
     (df['melting_temp'] >= 55) &
     (df['off_targets'] <= 3)
 ]
-
 ```
 
 ## Integration
@@ -374,9 +361,9 @@ high_quality = df[
 ### Can I use U-Probe in my Python pipeline?
 
 Yes! Use the Python API:
+```
 
-
-```python
+python
 from uprobe import UProbeAPI
 
 uprobe = UProbeAPI(protocol_dict, genomes_dict, output_dir)
@@ -384,7 +371,6 @@ results = uprobe.run_workflow()
 
 # Process results with pandas
 filtered_results = results[results['gc_content'] > 0.5]
-
 ```
 
 ### How do I integrate U-Probe with other tools?
@@ -411,7 +397,6 @@ WORKDIR /app
 RUN pip install .
 
 ENTRYPOINT ["uprobe"]
-
 ```
 
 ## Applications

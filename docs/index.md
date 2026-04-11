@@ -10,7 +10,7 @@ hero:
       text: Documentation
       link: /docs/index
     - theme: alt
-      text: App
+      text: Launch App
       link: https://dyarchical-unrecuperative-corazon.ngrok-free.dev/
     - theme: alt
       text: bioRxiv (Unpublished)

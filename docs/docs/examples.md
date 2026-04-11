@@ -20,13 +20,12 @@ human_hg38:
   align_index:
     - bowtie2
     - blast
-
 ```
 
 **fish_protocol.yaml:**
+```
 
-
-```yaml
+yaml
 name: "Basic_FISH_Probes"
 genome: "human_hg38"
 
@@ -75,7 +74,6 @@ post_process:
       condition: "gc_content >= 0.45 & gc_content <= 0.55"
     melting_temp:
       condition: "melting_temp >= 50 & melting_temp <= 60"
-
 ```
 
 ### Running the Example
@@ -92,7 +90,6 @@ uprobe construct-probes -p fish_protocol.yaml -g genomes.yaml \
   --targets fish_results/target_sequences.csv -o fish_results/
 uprobe post-process -p fish_protocol.yaml -g genomes.yaml \
   --probes fish_results/constructed_probes.csv -o fish_results/ --raw
-
 ```
 
 ### Expected Output
@@ -103,14 +100,13 @@ The results directory will contain:
 - `Basic_FISH_Probes_YYYYMMDD_HHMMSS_raw.csv` - All designed probes
 
 Example output structure:
+```
 
-
-```text
+text
 gene_name,target_region,fish_probe,gc_content,melting_temp
 GAPDH,ATGCGTACG...,TTTTTTCGTACGATACGTACGTACGTACGT,0.48,55.2
 ACTB,CGATCGATA...,TTTTTTTATCGATCTGCATGCATGCATGCA,0.52,58.7
 TP53,GCTAGCTAG...,TTTTTTCTAGCTACCGATCGATCGATCGAT,0.50,56.1
-
 ```
 
 ## Example 2: PCR Primer Design
@@ -214,7 +210,6 @@ post_process:
     # Amplicon size
     amplicon_length:
       condition: "amplicon_length >= 100 & amplicon_length <= 500"
-
 ```
 
 ## Example 3: Multiplexed Probe Design
@@ -222,9 +217,9 @@ post_process:
 Design probes with unique barcodes for multiplexed detection.
 
 **multiplex_protocol.yaml:**
+```
 
-
-```yaml
+yaml
 name: "Multiplexed_Detection"
 genome: "human_hg38"
 
@@ -309,7 +304,6 @@ post_process:
       - "target_specificity"
     is_descending:
       - "probe_tm"
-
 ```
 
 ## Example 4: Advanced Filtering
@@ -425,15 +419,14 @@ post_process:
   
   remove_overlap:
     location_interval: 25
-
 ```
 
 ## Python API Examples
 
 ### Example 5: Programmatic Probe Design
+```
 
-
-```python
+python
 from pathlib import Path
 from uprobe import UProbeAPI
 import pandas as pd
@@ -505,7 +498,6 @@ ax2.set_title('Tm vs GC Content')
 plt.tight_layout()
 plt.savefig('probe_analysis.png', dpi=300, bbox_inches='tight')
 plt.show()
-
 ```
 
 ### Example 6: Batch Processing
@@ -582,15 +574,14 @@ for gene_list in gene_lists:
 # Summary
 total_probes = sum(len(df) for df in all_results.values())
 print(f"\nTotal probes generated: {total_probes}")
-
 ```
 
 ## Running the Examples
 
 ### Command Line Execution
+```
 
-
-```bash
+bash
 # Download example files (if available)
 wget https://github.com/UFISH-Team/U-Probe/tree/main/examples/
 
@@ -605,7 +596,6 @@ uprobe run -p pcr_protocol.yaml -g genomes.yaml -o results/ --verbose
 # Run multiplexed example
 cd ../multiplexed/
 uprobe run -p multiplex_protocol.yaml -g genomes.yaml -o results/
-
 ```
 
 ### Python Script Execution
@@ -617,7 +607,6 @@ python programmatic_design.py
 
 # Run batch processing example
 python batch_processing.py
-
 ```
 
 ## Customizing Examples
@@ -625,14 +614,13 @@ python batch_processing.py
 ### Modify Target Lists
 
 Change the target genes in any protocol:
+```
 
-
-```yaml
+yaml
 targets:
   - "YOUR_GENE1"
   - "YOUR_GENE2"
   - "YOUR_GENE3"
-
 ```
 
 ### Adjust Quality Filters
@@ -647,15 +635,14 @@ post_process:
       condition: "gc_content >= 0.3 & gc_content <= 0.7"  # More relaxed
     melting_temp:
       condition: "melting_temp >= 60 & melting_temp <= 65"  # More stringent
-
 ```
 
 ### Add Custom Attributes
 
 Include additional quality metrics:
+```
 
-
-```yaml
+yaml
 attributes:
   probe_length:
     target: main_probe
@@ -664,7 +651,6 @@ attributes:
     target: main_probe
     type: n_mapped_genes
     aligner: bowtie2
-
 ```
 
 ## Troubleshooting Examples

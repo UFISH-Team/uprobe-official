@@ -43,13 +43,12 @@ human_demo:
     - bowtie2
     - blast
   jellyfish: false
-
 ```
 
 **Create protocol.yaml:**
+```
 
-
-```yaml
+yaml
 # protocol.yaml
 name: "MyFirstProbes"
 genome: "human_demo"
@@ -107,7 +106,6 @@ post_process:
       condition: "gc_content >= 0.4 & gc_content <= 0.6"
     melting_temp:
       condition: "melting_temp >= 50 & melting_temp <= 65"
-
 ```
 
 ### Step 3: Run the Complete Workflow
@@ -122,7 +120,6 @@ uprobe run \
   --output results/ \
   --threads 4 \
   --raw
-
 ```
 
 This command will:
@@ -138,14 +135,13 @@ This command will:
 ### Step 4: Examine the Results
 
 Check the results directory:
+```
 
-
-```bash
+bash
 ls results/
 # Output:
 # MyFirstProbes_20240131_143022.csv      # Filtered probes
 # MyFirstProbes_20240131_143022_raw.csv  # All probes (if --raw used)
-
 ```
 
 The CSV files contain your designed probes with all calculated attributes:
@@ -156,7 +152,6 @@ gene_name,target_region,main_probe,gc_content,melting_temp,passed_filters
 GAPDH,ATGC...,ACGT...,0.52,58.3,True
 ACTB,CGTA...,TGCA...,0.48,55.7,True
 ...
-
 ```
 
 ## Step-by-Step Workflow
@@ -164,14 +159,13 @@ ACTB,CGTA...,TGCA...,0.48,55.7,True
 For more control, you can run individual steps:
 
 ### Step 1: Build Genome Index
+```
 
-
-```bash
+bash
 uprobe build-index \
   --protocol protocol.yaml \
   --genomes genomes.yaml \
   --threads 4
-
 ```
 
 ### Step 2: Validate Targets
@@ -181,18 +175,16 @@ uprobe build-index \
 uprobe validate-targets \
   --protocol protocol.yaml \
   --genomes genomes.yaml
-
 ```
 
 ### Step 3: Generate Target Sequences
+```
 
-
-```bash
+bash
 uprobe generate-targets \
   --protocol protocol.yaml \
   --genomes genomes.yaml \
   --output results/
-
 ```
 
 ### Step 4: Design Probes
@@ -204,20 +196,18 @@ uprobe construct-probes \
   --genomes genomes.yaml \
   --targets results/target_sequences.csv \
   --output results/
-
 ```
 
 ### Step 5: Post-Process (Add Attributes & Filter)
+```
 
-
-```bash
+bash
 uprobe post-process \
   --protocol protocol.yaml \
   --genomes genomes.yaml \
   --probes results/constructed_probes.csv \
   --output results/ \
   --raw
-
 ```
 
 ## Understanding the Output
@@ -268,15 +258,14 @@ probes:
         expr: "rc(target_region[30:50])"
       primer:
         expr: "'TGCATGCA'"
-
 ```
 
 ### Target Extraction
 
 Change how target regions are extracted:
+```
 
-
-```yaml
+yaml
 extracts:
   target_region:
     source: "genome"      # Extract from anywhere in genome
@@ -286,7 +275,6 @@ extracts:
     coordinates:
       - "chr1:1000000-1001000"
       - "chr2:2000000-2001000"
-
 ```
 
 ### Quality Filters
@@ -308,7 +296,6 @@ post_process:
     # Exclude high off-targets
     mapped_genes:
       condition: "mapped_genes <= 3"
-
 ```
 
 ## Common Use Cases
@@ -316,9 +303,9 @@ post_process:
 ### FISH Probes
 
 For fluorescence in situ hybridization:
+```
 
-
-```yaml
+yaml
 probes:
   fish_probe:
     template: "{target_binding}{spacer}{fluorophore_binding}"
@@ -330,7 +317,6 @@ probes:
         expr: "'TTTTTT'"  # Poly-T spacer
       fluorophore_binding:
         expr: "encoding[gene_name]['fluorophore']"
-
 ```
 
 ### PCR Primers
@@ -353,7 +339,6 @@ probes:
       primer_seq:
         length: 22
         expr: "rc(target_region[-22:])"
-
 ```
 
 ## Troubleshooting
@@ -388,7 +373,7 @@ Now that you've completed your first probe design:
 
 1. Explore more [examples](./examples.md) for different applications
 2. Learn about advanced [workflows](./workflows.md)
-3. Customize your designs using the [config_reference](./config_reference.md)
+3. Customize your designs using the configuration guide
 4. Integrate U-Probe into your pipelines with the [python_api](./python_api.md)
 
 ::: tip Tip

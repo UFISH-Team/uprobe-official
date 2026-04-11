@@ -16,15 +16,13 @@ This guide helps resolve common issues when using U-Probe.
 ```bash
    pip list | grep uprobe
    python -c "import uprobe; print(uprobe.__version__)"
-
 ```
 
 2. **Try using Python module syntax:**
+```
 
-   
-```bash
+bash
    python -m uprobe --help
-
 ```
 
 3. **Check PATH (for --user installs):**
@@ -33,17 +31,15 @@ This guide helps resolve common issues when using U-Probe.
 ```bash
    # Add to ~/.bashrc or ~/.zshrc
    export PATH="$HOME/.local/bin:$PATH"
-
 ```
 
 4. **Reinstall in a virtual environment:**
+```
 
-   
-```bash
+bash
    python -m venv uprobe_env
    source uprobe_env/bin/activate
    pip install uprobe
-
 ```
 
 ### ImportError: No module named 'uprobe'
@@ -57,17 +53,15 @@ This guide helps resolve common issues when using U-Probe.
    
 ```bash
    pip show uprobe
-
 ```
 
 2. **Check Python environment:**
+```
 
-   
-```bash
+bash
    which python
    which pip
    # Ensure both point to the same environment
-
 ```
 
 3. **Reinstall:**
@@ -76,7 +70,6 @@ This guide helps resolve common issues when using U-Probe.
 ```bash
    pip uninstall uprobe
    pip install uprobe
-
 ```
 
 ### Missing dependencies errors
@@ -86,11 +79,10 @@ This guide helps resolve common issues when using U-Probe.
 **Solutions:**
 
 1. **Install all requirements:**
+```
 
-   
-```bash
+bash
    pip install -r requirements.txt
-
 ```
 
 2. **Update pip and try again:**
@@ -99,15 +91,13 @@ This guide helps resolve common issues when using U-Probe.
 ```bash
    pip install --upgrade pip
    pip install uprobe
-
 ```
 
 3. **For development installs:**
+```
 
-   
-```bash
+bash
    pip install -e ".[dev]"
-
 ```
 
 ## Configuration Issues
@@ -126,16 +116,14 @@ This guide helps resolve common issues when using U-Probe.
    fasta: "genome.fa"
    # Use absolute paths  
    fasta: "/full/path/to/genome.fa"
-
 ```
 
 2. **Check file permissions:**
+```
 
-   
-```bash
+bash
    ls -la /path/to/genome.fa
    # Ensure files are readable
-
 ```
 
 3. **Verify file existence:**
@@ -144,7 +132,6 @@ This guide helps resolve common issues when using U-Probe.
 ```bash
    file /path/to/genome.fa
    head -n 5 /path/to/genome.fa
-
 ```
 
 ### Target validation failed
@@ -154,16 +141,15 @@ This guide helps resolve common issues when using U-Probe.
 **Solutions:**
 
 1. **Check gene names in GTF:**
+```
 
-   
-```bash
+bash
    # Search for your gene in GTF
    grep -i "GAPDH" /path/to/annotation.gtf
    
    # Check available gene names
    awk '$3=="gene"' /path/to/annotation.gtf | \
    grep -o 'gene_name "[^"]*"' | sort | uniq | head -20
-
 ```
 
 2. **Try different gene identifiers:**
@@ -174,15 +160,13 @@ This guide helps resolve common issues when using U-Probe.
      - "GAPDH"           # Gene symbol
      - "ENSG00000111640" # Ensembl ID
      - "2597"            # Entrez ID
-
 ```
 
 3. **Use continue-invalid flag for testing:**
+```
 
-   
-```bash
+bash
    uprobe validate-targets -p protocol.yaml -g genomes.yaml --continue-invalid
-
 ```
 
 4. **Check GTF format:**
@@ -192,7 +176,6 @@ This guide helps resolve common issues when using U-Probe.
    # GTF should have these columns:
    # seqname source feature start end score strand frame attribute
    head -n 5 /path/to/annotation.gtf
-
 ```
 
 ### Invalid YAML syntax
@@ -202,9 +185,9 @@ This guide helps resolve common issues when using U-Probe.
 **Solutions:**
 
 1. **Check indentation (use spaces, not tabs):**
+```
 
-   
-```yaml
+yaml
    # Correct
    probes:
      main_probe:          # 2 spaces
@@ -214,7 +197,6 @@ This guide helps resolve common issues when using U-Probe.
    probes:
    	main_probe:        # tab character
       template: "{seq}"   # 3 spaces
-
 ```
 
 2. **Validate YAML syntax:**
@@ -222,17 +204,15 @@ This guide helps resolve common issues when using U-Probe.
    
 ```bash
    python -c "import yaml; yaml.safe_load(open('protocol.yaml'))"
-
 ```
 
 3. **Quote strings with special characters:**
+```
 
-   
-```yaml
+yaml
    # Quote expressions and conditions
    expr: "rc(target_region[0:20])"
    condition: "gc_content >= 0.4 & gc_content <= 0.6"
-
 ```
 
 ## Runtime Issues
@@ -252,15 +232,13 @@ This guide helps resolve common issues when using U-Probe.
        source: "exon"  # Try "gene" if exons are too short
        length: 50      # Reduce if regions are smaller
        overlap: 10     # Reduce overlap
-
 ```
 
 2. **Verify targets exist:**
+```
 
-   
-```bash
+bash
    uprobe validate-targets -p protocol.yaml -g genomes.yaml -v
-
 ```
 
 3. **Check for gene annotation issues:**
@@ -269,7 +247,6 @@ This guide helps resolve common issues when using U-Probe.
 ```bash
    # Look for your gene in GTF
    grep "GAPDH" /path/to/annotation.gtf | head -5
-
 ```
 
 ### No probes constructed
@@ -279,9 +256,9 @@ This guide helps resolve common issues when using U-Probe.
 **Solutions:**
 
 1. **Check probe expressions:**
+```
 
-   
-```yaml
+yaml
    probes:
      test_probe:
        template: "{simple_part}"
@@ -289,7 +266,6 @@ This guide helps resolve common issues when using U-Probe.
          simple_part:
            length: 20
            expr: "target_region[0:20]"  # Simple expression
-
 ```
 
 2. **Verify encoding mappings:**
@@ -300,17 +276,15 @@ This guide helps resolve common issues when using U-Probe.
    encoding:
      GAPDH:  # Must match target name exactly
        BC1: "ACGTACGTACGT"
-
 ```
 
 3. **Test with minimal probe:**
+```
 
-   
-```yaml
+yaml
    probes:
      minimal:
        expr: "target_region[0:25]"
-
 ```
 
 ### All probes filtered out
@@ -324,18 +298,16 @@ This guide helps resolve common issues when using U-Probe.
    
 ```bash
    uprobe run -p protocol.yaml -g genomes.yaml --raw
-
 ```
 
 2. **Relax filtering conditions:**
+```
 
-   
-```yaml
+yaml
    post_process:
      filters:
        gc_content:
          condition: "gc_content >= 0.2 & gc_content <= 0.8"  # Very relaxed
-
 ```
 
 3. **Check attribute calculations:**
@@ -349,18 +321,16 @@ This guide helps resolve common issues when using U-Probe.
        type: gc_content
      # Comment out complex attributes:
      # off_targets: ...
-
 ```
 
 4. **Examine raw results:**
+```
 
-   
-```python
+python
    import pandas as pd
    df = pd.read_csv('results/experiment_raw.csv')
    print(df.describe())  # Check attribute distributions
    print(df[df['gc_content'].isna()])  # Find failed calculations
-
 ```
 
 ## Performance Issues
@@ -376,18 +346,16 @@ This guide helps resolve common issues when using U-Probe.
    
 ```bash
    uprobe run -p protocol.yaml -g genomes.yaml -t 16
-
 ```
 
 2. **Use faster extraction:**
+```
 
-   
-```yaml
+yaml
    extracts:
      target_region:
        source: "exon"  # Faster than "gene"
        length: 100     # Shorter regions
-
 ```
 
 3. **Reduce expensive attributes:**
@@ -402,16 +370,14 @@ This guide helps resolve common issues when using U-Probe.
      # Remove slow ones temporarily:
      # fold_score: ...
      # kmer_count: ...
-
 ```
 
 4. **Process in batches:**
+```
 
-   
-```bash
+bash
    # Split large target lists
    uprobe run -p small_batch.yaml -g genomes.yaml
-
 ```
 
 ### Memory issues
@@ -428,18 +394,16 @@ This guide helps resolve common issues when using U-Probe.
      - "GAPDH"
      - "ACTB"
      # Process 5-10 genes at a time for large genomes
-
 ```
 
 2. **Reduce sequence length:**
+```
 
-   
-```yaml
+yaml
    extracts:
      target_region:
        length: 80   # Shorter sequences use less memory
        overlap: 15
-
 ```
 
 3. **Skip memory-intensive attributes:**
@@ -450,7 +414,6 @@ This guide helps resolve common issues when using U-Probe.
    # - n_mapped_genes with blast
    # - kmer_count
    # - complex fold_score calculations
-
 ```
 
 ### Index building fails
@@ -460,11 +423,10 @@ This guide helps resolve common issues when using U-Probe.
 **Solutions:**
 
 1. **Check available disk space:**
+```
 
-   
-```bash
+bash
    df -h /path/to/genome/directory
-
 ```
 
 2. **Verify genome file integrity:**
@@ -474,19 +436,17 @@ This guide helps resolve common issues when using U-Probe.
    file /path/to/genome.fa
    head -n 10 /path/to/genome.fa
    tail -n 10 /path/to/genome.fa
-
 ```
 
 3. **Build indices manually:**
+```
 
-   
-```bash
+bash
    # Bowtie2
    bowtie2-build /path/to/genome.fa /path/to/indices/genome
    
    # BLAST
    makeblastdb -in /path/to/genome.fa -dbtype nucl -out /path/to/indices/genome
-
 ```
 
 4. **Use pre-built indices:**
@@ -498,7 +458,6 @@ This guide helps resolve common issues when using U-Probe.
      fasta: "/data/hg38.fa"
      gtf: "/data/hg38.gtf"
      out: "/data/existing_indices"  # Pre-built indices location
-
 ```
 
 ## Attribute Calculation Issues
@@ -510,14 +469,13 @@ This guide helps resolve common issues when using U-Probe.
 **Solutions:**
 
 1. **Check sequence validity:**
+```
 
-   
-```python
+python
    # Sequences should only contain ATCG
    import re
    def check_sequence(seq):
        return bool(re.match('^[ATCG]*$', seq))
-
 ```
 
 2. **Handle short sequences:**
@@ -530,7 +488,6 @@ This guide helps resolve common issues when using U-Probe.
        parts:
          binding:
            length: 15  # Minimum for reliable Tm calculation
-
 ```
 
 ### Off-target calculation fails
@@ -540,12 +497,11 @@ This guide helps resolve common issues when using U-Probe.
 **Solutions:**
 
 1. **Verify indices exist:**
+```
 
-   
-```bash
+bash
    ls -la /path/to/indices/
    # Should contain .bt2 files for bowtie2
-
 ```
 
 2. **Test aligner manually:**
@@ -554,19 +510,17 @@ This guide helps resolve common issues when using U-Probe.
 ```bash
    # Test bowtie2
    echo "ATCGATCGATCGATCG" | bowtie2 -x /path/to/indices/genome -
-
 ```
 
 3. **Use alternative aligner:**
+```
 
-   
-```yaml
+yaml
    attributes:
      off_targets:
        target: main_probe
        type: n_mapped_genes
        aligner: blast  # Try blast if bowtie2 fails
-
 ```
 
 ### K-mer counting fails
@@ -580,15 +534,13 @@ This guide helps resolve common issues when using U-Probe.
    
 ```bash
    jellyfish info genome.jf
-
 ```
 
 2. **Build Jellyfish database:**
+```
 
-   
-```bash
+bash
    jellyfish count -m 15 -s 1000000000 -t 8 -o genome.jf genome.fa
-
 ```
 
 3. **Use alternative complexity measures:**
@@ -600,7 +552,6 @@ This guide helps resolve common issues when using U-Probe.
      sequence_complexity:
        target: main_probe
        type: complexity_score
-
 ```
 
 ## Data Format Issues
@@ -612,14 +563,13 @@ This guide helps resolve common issues when using U-Probe.
 **Solutions:**
 
 1. **Check probe names match:**
+```
 
-   
-```yaml
+yaml
    # Probe names become column names
    probes:
      my_probe:  # Creates column 'my_probe'
        template: "{seq}"
-
 ```
 
 2. **Verify attribute names:**
@@ -630,16 +580,14 @@ This guide helps resolve common issues when using U-Probe.
      probe_gc:     # Creates column 'probe_gc'
        target: my_probe
        type: gc_content
-
 ```
 
 3. **Examine raw output:**
+```
 
-   
-```bash
+bash
    uprobe run -p protocol.yaml -g genomes.yaml --raw
    # Check _raw.csv file for all calculated values
-
 ```
 
 ### Missing sequences in output
@@ -657,15 +605,13 @@ This guide helps resolve common issues when using U-Probe.
      filters:
        anything_goes:
          condition: "True"  # Passes everything
-
 ```
 
 2. **Look for errors in logs:**
+```
 
-   
-```bash
+bash
    uprobe --verbose run -p protocol.yaml -g genomes.yaml 2>&1 | tee log.txt
-
 ```
 
 3. **Check intermediate files:**
@@ -674,7 +620,6 @@ This guide helps resolve common issues when using U-Probe.
 ```bash
    ls -la results/
    wc -l results/*.csv  # Count lines in each file
-
 ```
 
 ## Getting Help
@@ -682,11 +627,10 @@ This guide helps resolve common issues when using U-Probe.
 ### Check Logs
 
 Always run with verbose output for troubleshooting:
+```
 
-
-```bash
+bash
 uprobe --verbose run -p protocol.yaml -g genomes.yaml 2>&1 | tee uprobe.log
-
 ```
 
 ### Minimal Test Case
@@ -711,7 +655,6 @@ probes:
     expr: "target_region[0:20]"
 
 # No attributes or filters initially
-
 ```
 
 ### Report Issues
@@ -770,5 +713,5 @@ When reporting issues, include:
 If you're still having issues:
 
 1. Review the [examples](./examples.md) for working configurations
-2. Check the [config_reference](./config_reference.md) for detailed option descriptions
+2. Check the configuration guide for detailed option descriptions
 3. Ask for help on [GitHub Discussions](https://github.com/UFISH-Team/U-Probe/discussions)

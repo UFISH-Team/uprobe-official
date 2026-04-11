@@ -23,20 +23,18 @@ We welcome contributions to U-Probe! This guide explains how to contribute to th
 ```bash
    git clone https://github.com/YOUR-USERNAME/U-Probe.git
    cd u-probe
-
 ```
 
 3. **Set up development environment**:
+```
 
-   
-```bash
+bash
    # Create virtual environment
    python -m venv uprobe_dev
    source uprobe_dev/bin/activate  # On Windows: uprobe_dev\Scripts\activate
    
    # Install in development mode
    pip install -e ".[dev]"
-
 ```
 
 4. **Install pre-commit hooks** (optional but recommended):
@@ -45,15 +43,13 @@ We welcome contributions to U-Probe! This guide explains how to contribute to th
 ```bash
    pip install pre-commit
    pre-commit install
-
 ```
 
 5. **Run tests** to ensure everything works:
+```
 
-   
-```bash
+bash
    pytest
-
 ```
 
 ## Reporting Issues
@@ -92,7 +88,6 @@ What you expected to happen.
 
 **Additional Context**
 Any other relevant information.
-
 ```
 
 ### Feature Requests
@@ -109,13 +104,12 @@ For feature requests, describe:
 ### Development Workflow
 
 1. **Create a branch** for your changes:
+```
 
-   
-```bash
+bash
    git checkout -b feature/your-feature-name
    # or
    git checkout -b fix/issue-number
-
 ```
 
 2. **Make your changes** following our coding standards
@@ -127,15 +121,13 @@ For feature requests, describe:
 ```bash
    git add .
    git commit -m "Add feature X to solve problem Y"
-
 ```
 
 6. **Push to your fork**:
+```
 
-   
-```bash
+bash
    git push origin feature/your-feature-name
-
 ```
 
 7. **Create a Pull Request** on GitHub
@@ -180,7 +172,6 @@ Brief description of changes.
 - [ ] Self-review completed
 - [ ] Documentation updated
 - [ ] Changes described in commit messages
-
 ```
 
 ## Code Standards
@@ -196,9 +187,9 @@ We follow Python community standards:
 - **Docstrings** for all public functions/classes
 
 **Code formatting:**
+```
 
-
-```bash
+bash
 # Format code
 black .
 isort .
@@ -206,7 +197,6 @@ isort .
 # Check formatting
 black --check .
 isort --check-only .
-
 ```
 
 **Example function:**
@@ -241,7 +231,6 @@ def calculate_gc_content(sequence: str) -> float:
         
     gc_count = sequence.upper().count('G') + sequence.upper().count('C')
     return gc_count / len(sequence)
-
 ```
 
 ### Documentation Standards
@@ -253,9 +242,9 @@ def calculate_gc_content(sequence: str) -> float:
 - **Sphinx docs**: Update relevant .rst files
 
 **Docstring example:**
+```
 
-
-```python
+python
 class ProbeDesigner:
     """
     Design probes for molecular biology applications.
@@ -273,7 +262,6 @@ class ProbeDesigner:
         >>> len(probes)
         42
     """
-
 ```
 
 ### Testing Guidelines
@@ -312,13 +300,12 @@ class TestGCContent:
     def test_gc_content_parametrized(self, sequence, expected):
         """Test GC content with multiple inputs."""
         assert abs(calculate_gc_content(sequence) - expected) < 0.001
-
 ```
 
 Run specific tests:
+```
 
-
-```bash
+bash
 # Run all tests
 pytest
 
@@ -327,7 +314,6 @@ pytest tests/test_utils.py
 
 # Run with coverage
 pytest --cov=uprobe
-
 ```
 
 ## Types of Contributions
@@ -368,7 +354,6 @@ Documentation improvements are highly valued:
 cd docs/
 make html
 # Open build/html/index.html in browser
-
 ```
 
 ### Examples and Tutorials
@@ -446,9 +431,9 @@ To speed up the review process:
 ## Development Setup Details
 
 ### Project Structure
+```
 
-
-```text
+text
 u-probe/
 ├── uprobe/              # Main package
 │   ├── __init__.py
@@ -463,7 +448,6 @@ u-probe/
 ├── examples/            # Example configurations
 ├── requirements*.txt    # Dependencies
 └── setup.py            # Package configuration
-
 ```
 
 ### Running Development Environment
@@ -484,15 +468,14 @@ flake8 uprobe/
 # Build documentation
 cd docs/
 make html
-
 ```
 
 ### Debugging
 
 For debugging issues:
+```
 
-
-```bash
+bash
 # Run with verbose logging
 uprobe --verbose run -p protocol.yaml -g genomes.yaml
 
@@ -501,7 +484,6 @@ pytest -xvs tests/test_specific.py::test_function
 
 # Use pdb for interactive debugging
 python -m pdb -c continue uprobe_script.py
-
 ```
 
 ## Release Process

@@ -9,7 +9,6 @@ After installation, U-Probe is available via the `uprobe` command. The CLI is or
 
 ```bash
 uprobe [OPTIONS] COMMAND [ARGS]...
-
 ```
 
 ## Global Options
@@ -33,13 +32,12 @@ These options are available for all commands:
    Show help message and exit.
 
 Example:
+```
 
-
-```bash
+bash
 uprobe --version
 uprobe --verbose run --help
 uprobe --quiet validate-targets -p protocol.yaml -g genomes.yaml
-
 ```
 
 ## Commands Overview
@@ -62,7 +60,6 @@ Execute the complete probe design workflow from start to finish.
 
 ```bash
 uprobe run [OPTIONS]
-
 ```
 
 This command runs the entire pipeline:
@@ -102,9 +99,9 @@ This command runs the entire pipeline:
    Number of threads for computation. Default: `10`
 
 **Examples:**
+```
 
-
-```bash
+bash
 # Basic run
 uprobe run -p protocol.yaml -g genomes.yaml
 
@@ -113,7 +110,6 @@ uprobe run -p protocol.yaml -g genomes.yaml -o my_results/ -t 8
 
 # Save raw data and continue with invalid targets
 uprobe run -p protocol.yaml -g genomes.yaml --raw --continue-invalid
-
 ```
 
 ## build-index
@@ -123,7 +119,6 @@ Build genome indices for alignment tools (Bowtie2, BLAST).
 
 ```bash
 uprobe build-index [OPTIONS]
-
 ```
 
 This command creates the necessary index files for sequence alignment and similarity searches. Indices are built based on the `align_index` specification in the genome configuration.
@@ -143,15 +138,14 @@ This command creates the necessary index files for sequence alignment and simila
    Number of threads for index building. Default: `10`
 
 **Examples:**
+```
 
-
-```bash
+bash
 # Build indices with default settings
 uprobe build-index -p protocol.yaml -g genomes.yaml
 
 # Use more threads for faster building
 uprobe build-index -p protocol.yaml -g genomes.yaml -t 16
-
 ```
 
 ## validate-targets
@@ -161,7 +155,6 @@ Validate target genes against the genome annotation file.
 
 ```bash
 uprobe validate-targets [OPTIONS]
-
 ```
 
 This command checks if all target genes specified in the protocol exist in the GTF annotation file. It's useful for catching typos or missing genes before running the full workflow.
@@ -181,15 +174,14 @@ This command checks if all target genes specified in the protocol exist in the G
    Continue with valid targets even if some are invalid. Without this flag, the command fails if any targets are invalid.
 
 **Examples:**
+```
 
-
-```bash
+bash
 # Validate all targets (fail if any invalid)
 uprobe validate-targets -p protocol.yaml -g genomes.yaml
 
 # Continue with valid targets only
 uprobe validate-targets -p protocol.yaml -g genomes.yaml --continue-invalid
-
 ```
 
 **Exit Codes:**
@@ -204,7 +196,6 @@ Generate target region sequences from the genome.
 
 ```bash
 uprobe generate-targets [OPTIONS]
-
 ```
 
 This command extracts target sequences based on the extraction parameters in the protocol configuration. It produces a CSV file with target regions that can be used for probe construction.
@@ -240,15 +231,14 @@ Creates `target_sequences.csv` in the output directory with columns:
 - `strand`: Strand orientation
 
 **Examples:**
+```
 
-
-```bash
+bash
 # Generate targets with default output
 uprobe generate-targets -p protocol.yaml -g genomes.yaml
 
 # Custom output directory
 uprobe generate-targets -p protocol.yaml -g genomes.yaml -o target_seqs/
-
 ```
 
 ## construct-probes
@@ -258,7 +248,6 @@ Construct probes from target sequences.
 
 ```bash
 uprobe construct-probes [OPTIONS]
-
 ```
 
 This command takes target sequences and constructs probes according to the probe design specifications in the protocol. It requires a target sequences CSV file from the previous step.
@@ -286,9 +275,9 @@ This command takes target sequences and constructs probes according to the probe
 Creates `constructed_probes.csv` with target data plus designed probe sequences.
 
 **Examples:**
+```
 
-
-```bash
+bash
 # Construct probes from targets
 uprobe construct-probes -p protocol.yaml -g genomes.yaml \
   --targets results/target_sequences.csv
@@ -296,7 +285,6 @@ uprobe construct-probes -p protocol.yaml -g genomes.yaml \
 # With custom output
 uprobe construct-probes -p protocol.yaml -g genomes.yaml \
   --targets targets.csv -o probe_results/
-
 ```
 
 ## post-process
@@ -306,7 +294,6 @@ Add quality attributes and apply filters to probes.
 
 ```bash
 uprobe post-process [OPTIONS]
-
 ```
 
 This command adds quality attributes (GC content, melting temperature, etc.) to probes and applies filtering criteria specified in the protocol.
@@ -341,9 +328,9 @@ Creates timestamped CSV files:
 - `{experiment_name}_{timestamp}_raw.csv`: Raw probes (if --raw used)
 
 **Examples:**
+```
 
-
-```bash
+bash
 # Post-process with filtering
 uprobe post-process -p protocol.yaml -g genomes.yaml \
   --probes combined_data.csv
@@ -351,7 +338,6 @@ uprobe post-process -p protocol.yaml -g genomes.yaml \
 # Save raw data too
 uprobe post-process -p protocol.yaml -g genomes.yaml \
   --probes combined_data.csv --raw
-
 ```
 
 ## generate-barcodes
@@ -361,7 +347,6 @@ Generate DNA barcode sequences.
 
 ```bash
 uprobe generate-barcodes [OPTIONS]
-
 ```
 
 This command generates barcode sequences based on the encoding configuration in the protocol. Useful for creating standardized barcode sets.
@@ -381,15 +366,14 @@ This command generates barcode sequences based on the encoding configuration in 
 Creates barcode files in the specified output directory.
 
 **Examples:**
+```
 
-
-```bash
+bash
 # Generate barcodes
 uprobe generate-barcodes -p protocol.yaml
 
 # Custom output directory
 uprobe generate-barcodes -p protocol.yaml -o my_barcodes/
-
 ```
 
 ## version
@@ -399,16 +383,14 @@ Show the U-Probe version information.
 
 ```bash
 uprobe version
-
 ```
 
 **Example:**
+```
 
-
-```bash
+bash
 $ uprobe version
 U-Probe version 1.0.0
-
 ```
 
 ## Workflow Examples
@@ -426,15 +408,14 @@ uprobe run \
   --threads 8 \
   --raw \
   --verbose
-
 ```
 
 ### Step-by-Step Workflow
 
 For more control, run individual steps:
+```
 
-
-```bash
+bash
 # 1. Validate configuration
 uprobe validate-targets -p experiment.yaml -g genomes.yaml
 
@@ -461,7 +442,6 @@ uprobe post-process \
 
 # 6. Generate barcodes (optional)
 uprobe generate-barcodes -p experiment.yaml -o barcodes/
-
 ```
 
 ### Parallel Processing
@@ -475,21 +455,19 @@ uprobe run -p protocol.yaml -g genomes.yaml -t $(nproc)
 
 # Or specify a specific number
 uprobe run -p protocol.yaml -g genomes.yaml -t 16
-
 ```
 
 ### Batch Processing
 
 Process multiple protocols:
+```
 
-
-```bash
+bash
 #!/bin/bash
 for protocol in protocols/*.yaml; do
   name=$(basename "$protocol" .yaml)
   uprobe run -p "$protocol" -g genomes.yaml -o "results/$name/"
 done
-
 ```
 
 ## Debugging and Troubleshooting
@@ -501,17 +479,15 @@ Use verbose mode to see detailed progress:
 
 ```bash
 uprobe --verbose run -p protocol.yaml -g genomes.yaml
-
 ```
 
 ### Check Intermediate Results
 
 Save raw data to inspect intermediate steps:
+```
 
-
-```bash
+bash
 uprobe run -p protocol.yaml -g genomes.yaml --raw
-
 ```
 
 ### Validate Before Running
@@ -522,25 +498,22 @@ Always validate targets first:
 ```bash
 uprobe validate-targets -p protocol.yaml -g genomes.yaml
 # Only run full workflow if validation passes
-
 ```
 
 ### Test with Subset
 
 Test your configuration with a small subset of targets:
+```
 
-
-```yaml
+yaml
 # Create test_protocol.yaml with fewer targets
 targets:
   - "GAPDH"  # Just one target for testing
-
 ```
 
 
 ```bash
 uprobe run -p test_protocol.yaml -g genomes.yaml
-
 ```
 
 ## Performance Optimization
@@ -548,16 +521,15 @@ uprobe run -p test_protocol.yaml -g genomes.yaml
 ### Index Building
 
 Build indices once and reuse:
+```
 
-
-```bash
+bash
 # Build indices once
 uprobe build-index -p protocol.yaml -g genomes.yaml -t 16
 
 # Then run multiple experiments without rebuilding
 uprobe run -p exp1.yaml -g genomes.yaml  # Reuses existing indices
 uprobe run -p exp2.yaml -g genomes.yaml
-
 ```
 
 ### Memory Usage
@@ -569,19 +541,17 @@ For large genomes, monitor memory usage:
 # Monitor memory during execution
 uprobe --verbose run -p protocol.yaml -g genomes.yaml &
 watch -n 5 'ps aux | grep uprobe'
-
 ```
 
 ### Storage Considerations
+```
 
-
-```bash
+bash
 # Check available space before running
 df -h /path/to/output/
 
 # Clean up intermediate files if needed
 rm -f *.tmp *.intermediate
-
 ```
 
 ## Exit Codes
@@ -616,13 +586,12 @@ uprobe run \
   --verbose
 
 echo "Results saved to $OUTPUT"
-
 ```
 
 ### Python Scripts
+```
 
-
-```python
+python
 import subprocess
 import sys
 
@@ -646,7 +615,6 @@ def run_uprobe(protocol, genomes, output):
 # Usage
 output = run_uprobe('protocol.yaml', 'genomes.yaml', 'results/')
 print("Success:", output)
-
 ```
 
 ## Next Steps
@@ -654,9 +622,8 @@ print("Success:", output)
 Now that you know the CLI commands:
 
 1. Learn about the [python_api](./python_api.md) for programmatic access
-2. Explore [workflows](./workflows.md) for common use cases
-3. Check out [examples](./examples.md) for real-world applications
-4. Refer to [troubleshooting](./troubleshooting.md) if you encounter issues
+2. Check out [examples](./examples.md) for real-world applications
+3. Refer to [troubleshooting](./troubleshooting.md) if you encounter issues
 
 ::: tip Tip
 Use `uprobe COMMAND --help` to get detailed help for any specific command. The help includes all options and examples.
