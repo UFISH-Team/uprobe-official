@@ -46,9 +46,7 @@ human_demo:
 ```
 
 **Create protocol.yaml:**
-```
-
-yaml
+```yaml
 # protocol.yaml
 name: "MyFirstProbes"
 genome: "human_demo"
@@ -135,9 +133,7 @@ This command will:
 ### Step 4: Examine the Results
 
 Check the results directory:
-```
-
-bash
+```bash
 ls results/
 # Output:
 # MyFirstProbes_20240131_143022.csv      # Filtered probes
@@ -159,9 +155,7 @@ ACTB,CGTA...,TGCA...,0.48,55.7,True
 For more control, you can run individual steps:
 
 ### Step 1: Build Genome Index
-```
-
-bash
+```bash
 uprobe build-index \
   --protocol protocol.yaml \
   --genomes genomes.yaml \
@@ -178,9 +172,7 @@ uprobe validate-targets \
 ```
 
 ### Step 3: Generate Target Sequences
-```
-
-bash
+```bash
 uprobe generate-targets \
   --protocol protocol.yaml \
   --genomes genomes.yaml \
@@ -199,9 +191,7 @@ uprobe construct-probes \
 ```
 
 ### Step 5: Post-Process (Add Attributes & Filter)
-```
-
-bash
+```bash
 uprobe post-process \
   --protocol protocol.yaml \
   --genomes genomes.yaml \
@@ -263,9 +253,7 @@ probes:
 ### Target Extraction
 
 Change how target regions are extracted:
-```
-
-yaml
+```yaml
 extracts:
   target_region:
     source: "genome"      # Extract from anywhere in genome
@@ -303,9 +291,7 @@ post_process:
 ### FISH Probes
 
 For fluorescence in situ hybridization:
-```
-
-yaml
+```yaml
 probes:
   fish_probe:
     template: "{target_binding}{spacer}{fluorophore_binding}"

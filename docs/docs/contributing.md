@@ -26,9 +26,7 @@ We welcome contributions to U-Probe! This guide explains how to contribute to th
 ```
 
 3. **Set up development environment**:
-```
-
-bash
+```bash
    # Create virtual environment
    python -m venv uprobe_dev
    source uprobe_dev/bin/activate  # On Windows: uprobe_dev\Scripts\activate
@@ -46,9 +44,7 @@ bash
 ```
 
 5. **Run tests** to ensure everything works:
-```
-
-bash
+```bash
    pytest
 ```
 
@@ -104,9 +100,7 @@ For feature requests, describe:
 ### Development Workflow
 
 1. **Create a branch** for your changes:
-```
-
-bash
+```bash
    git checkout -b feature/your-feature-name
    # or
    git checkout -b fix/issue-number
@@ -124,9 +118,7 @@ bash
 ```
 
 6. **Push to your fork**:
-```
-
-bash
+```bash
    git push origin feature/your-feature-name
 ```
 
@@ -187,9 +179,7 @@ We follow Python community standards:
 - **Docstrings** for all public functions/classes
 
 **Code formatting:**
-```
-
-bash
+```bash
 # Format code
 black .
 isort .
@@ -242,9 +232,7 @@ def calculate_gc_content(sequence: str) -> float:
 - **Sphinx docs**: Update relevant .rst files
 
 **Docstring example:**
-```
-
-python
+```python
 class ProbeDesigner:
     """
     Design probes for molecular biology applications.
@@ -303,9 +291,7 @@ class TestGCContent:
 ```
 
 Run specific tests:
-```
-
-bash
+```bash
 # Run all tests
 pytest
 
@@ -431,9 +417,7 @@ To speed up the review process:
 ## Development Setup Details
 
 ### Project Structure
-```
-
-text
+```text
 u-probe/
 ├── uprobe/              # Main package
 │   ├── __init__.py
@@ -473,9 +457,7 @@ make html
 ### Debugging
 
 For debugging issues:
-```
-
-bash
+```bash
 # Run with verbose logging
 uprobe --verbose run -p protocol.yaml -g genomes.yaml
 

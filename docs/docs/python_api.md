@@ -42,9 +42,7 @@ print(probes_df.head())
 ### Step-by-Step Workflow
 
 For more control over the process:
-```
-
-python
+```python
 import pandas as pd
 from pathlib import Path
 from uprobe import UProbeAPI
@@ -117,9 +115,7 @@ uprobe = UProbeAPI(
 ```
 
 **From Dictionaries:**
-```
-
-python
+```python
 protocol_dict = {
     'name': 'MyExperiment',
     'genome': 'human_hg38',
@@ -158,9 +154,7 @@ print(df_targets.columns)
 ```
 
 **Probe DataFrame:**
-```
-
-python
+```python
 df_probes = uprobe.construct_probes(df_targets)  
 print(df_probes.columns)
 # ['probe_1', 'probe_2', ...]  # Depends on probe configuration
@@ -176,9 +170,7 @@ print(df_final.columns)
 ```
 
 ### Data Analysis and Visualization
-```
-
-python
+```python
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -243,9 +235,7 @@ best_probes.to_csv('best_probes.csv', index=False)
 ### Dynamic Configuration
 
 Build configurations programmatically:
-```
-
-python
+```python
 def create_fish_protocol(genes, experiment_name):
     """Create a FISH protocol configuration for given genes."""
     
@@ -376,9 +366,7 @@ print(f"\nBatch processing complete: {successful}/{total} successful")
 ### Parallel Processing
 
 Use multiprocessing for large datasets:
-```
-
-python
+```python
 from multiprocessing import Pool
 from functools import partial
 
@@ -477,9 +465,7 @@ def robust_probe_design(protocol_path, genomes_path, output_path):
 ## Integration Examples
 
 ### Jupyter Notebook Integration
-```
-
-python
+```python
 # In a Jupyter notebook
 %matplotlib inline
 import pandas as pd
@@ -572,9 +558,7 @@ if __name__ == '__main__':
 ## Best Practices
 
 ### Memory Management
-```
-
-python
+```python
 # For large datasets, process in chunks
 def process_large_dataset(genes, chunk_size=100):
     all_results = []
@@ -618,9 +602,7 @@ def validate_protocol(protocol_dict):
 ```
 
 ### Logging Configuration
-```
-
-python
+```python
 import logging
 
 # Configure logging for U-Probe

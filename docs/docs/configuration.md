@@ -51,9 +51,7 @@ genome_name:
   
   - `bowtie2` - For fast sequence alignment
   - `blast` - For sequence similarity searches
-```
-
-yaml
+```yaml
   align_index:
     - bowtie2
     - blast
@@ -71,9 +69,7 @@ yaml
 
 **species** (*string*)
   Scientific species name.
-```
-
-yaml
+```yaml
   species: "Homo sapiens"
 ```
 
@@ -87,9 +83,7 @@ yaml
 
 **jellyfish** (*boolean*)
   Whether to build Jellyfish k-mer index. Used for k-mer counting attributes. Default: false.
-```
-
-yaml
+```yaml
   jellyfish: true
 ```
 
@@ -124,9 +118,7 @@ mouse_mm39:
 The protocol file defines the complete probe design workflow, from target selection to final filtering.
 
 ### Basic Structure
-```
-
-yaml
+```yaml
 name: "ExperimentName"
 genome: "genome_name"
 targets: [...]
@@ -149,9 +141,7 @@ post_process: {...}
 
 **genome** (*string*)
   Name of the genome to use (must match a key in genomes.yaml).
-```
-
-yaml
+```yaml
   genome: "human_hg38"
 ```
 
@@ -170,9 +160,7 @@ yaml
 ### Target Extraction (extracts)
 
 Defines how to extract target sequences from the genome.
-```
-
-yaml
+```yaml
 extracts:
   target_region:
     source: "exon"        # Where to extract from
@@ -209,9 +197,7 @@ extracts:
 ```
 
 For gene-specific parameters:
-```
-
-yaml
+```yaml
 extracts:
   target_region:
     source: "exon"
@@ -259,9 +245,7 @@ probes:
 Parts can use various expressions:
 
 **Direct sequence slicing:**
-```
-
-yaml
+```yaml
 part1:
   length: 20
   expr: "target_region[0:20]"  # First 20 bases
@@ -277,9 +261,7 @@ part2:
 ```
 
 **Fixed sequences:**
-```
-
-yaml
+```yaml
 primer:
   expr: "'ACGTACGTACGT'"  # Fixed sequence (note quotes)
 ```
@@ -293,9 +275,7 @@ barcode:
 ```
 
 **Random sequences:**
-```
-
-yaml
+```yaml
 spacer:
   length: 8
   expr: "random_seq(8)"
@@ -315,9 +295,7 @@ probe_2:
 ### Nested Templates
 
 For complex probe structures:
-```
-
-yaml
+```yaml
 probes:
   main_probe:
     template: "{binding_region}{barcode_region}"
@@ -361,9 +339,7 @@ encoding:
 ### Quality Attributes (attributes)
 
 Defines quality metrics to calculate for probes.
-```
-
-yaml
+```yaml
 attributes:
   # GC content of the main probe
   probe_gc:
@@ -415,7 +391,7 @@ attributes:
 **fold_score**
   Secondary structure folding propensity
 
-**n_mapped_genes**
+**mapped_genes**
   Number of genes with significant alignment
 
   Options:
@@ -459,9 +435,7 @@ post_process:
 ### Filter Conditions
 
 Use pandas-style boolean expressions:
-```
-
-yaml
+```yaml
 filters:
   # Range filters
   gc_range:
@@ -492,9 +466,7 @@ sorts:
 ### Overlap Removal
 
 Remove probes that are too close to each other:
-```
-
-yaml
+```yaml
 remove_overlap:
   location_interval: 15  # Minimum distance in base pairs
 ```
@@ -585,9 +557,7 @@ post_process:
 ### File Organization
 
 Keep configuration files organized:
-```
-
-text
+```text
 project/
 ├── config/
 │   ├── genomes.yaml
@@ -614,9 +584,7 @@ description: "Updated probe design with stricter filters"
 ### Validation
 
 Always validate configurations before large runs:
-```
-
-bash
+```bash
 # Test with a small subset
 uprobe validate-targets -p protocol.yaml -g genomes.yaml
 ```

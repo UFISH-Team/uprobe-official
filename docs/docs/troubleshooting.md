@@ -19,9 +19,7 @@ This guide helps resolve common issues when using U-Probe.
 ```
 
 2. **Try using Python module syntax:**
-```
-
-bash
+```bash
    python -m uprobe --help
 ```
 
@@ -34,9 +32,7 @@ bash
 ```
 
 4. **Reinstall in a virtual environment:**
-```
-
-bash
+```bash
    python -m venv uprobe_env
    source uprobe_env/bin/activate
    pip install uprobe
@@ -56,9 +52,7 @@ bash
 ```
 
 2. **Check Python environment:**
-```
-
-bash
+```bash
    which python
    which pip
    # Ensure both point to the same environment
@@ -79,9 +73,7 @@ bash
 **Solutions:**
 
 1. **Install all requirements:**
-```
-
-bash
+```bash
    pip install -r requirements.txt
 ```
 
@@ -94,9 +86,7 @@ bash
 ```
 
 3. **For development installs:**
-```
-
-bash
+```bash
    pip install -e ".[dev]"
 ```
 
@@ -119,9 +109,7 @@ bash
 ```
 
 2. **Check file permissions:**
-```
-
-bash
+```bash
    ls -la /path/to/genome.fa
    # Ensure files are readable
 ```
@@ -141,9 +129,7 @@ bash
 **Solutions:**
 
 1. **Check gene names in GTF:**
-```
-
-bash
+```bash
    # Search for your gene in GTF
    grep -i "GAPDH" /path/to/annotation.gtf
    
@@ -163,9 +149,7 @@ bash
 ```
 
 3. **Use continue-invalid flag for testing:**
-```
-
-bash
+```bash
    uprobe validate-targets -p protocol.yaml -g genomes.yaml --continue-invalid
 ```
 
@@ -185,9 +169,7 @@ bash
 **Solutions:**
 
 1. **Check indentation (use spaces, not tabs):**
-```
-
-yaml
+```yaml
    # Correct
    probes:
      main_probe:          # 2 spaces
@@ -207,9 +189,7 @@ yaml
 ```
 
 3. **Quote strings with special characters:**
-```
-
-yaml
+```yaml
    # Quote expressions and conditions
    expr: "rc(target_region[0:20])"
    condition: "gc_content >= 0.4 & gc_content <= 0.6"
@@ -235,9 +215,7 @@ yaml
 ```
 
 2. **Verify targets exist:**
-```
-
-bash
+```bash
    uprobe validate-targets -p protocol.yaml -g genomes.yaml -v
 ```
 
@@ -256,9 +234,7 @@ bash
 **Solutions:**
 
 1. **Check probe expressions:**
-```
-
-yaml
+```yaml
    probes:
      test_probe:
        template: "{simple_part}"
@@ -279,9 +255,7 @@ yaml
 ```
 
 3. **Test with minimal probe:**
-```
-
-yaml
+```yaml
    probes:
      minimal:
        expr: "target_region[0:25]"
@@ -301,9 +275,7 @@ yaml
 ```
 
 2. **Relax filtering conditions:**
-```
-
-yaml
+```yaml
    post_process:
      filters:
        gc_content:
@@ -324,9 +296,7 @@ yaml
 ```
 
 4. **Examine raw results:**
-```
-
-python
+```python
    import pandas as pd
    df = pd.read_csv('results/experiment_raw.csv')
    print(df.describe())  # Check attribute distributions
@@ -349,9 +319,7 @@ python
 ```
 
 2. **Use faster extraction:**
-```
-
-yaml
+```yaml
    extracts:
      target_region:
        source: "exon"  # Faster than "gene"
@@ -373,9 +341,7 @@ yaml
 ```
 
 4. **Process in batches:**
-```
-
-bash
+```bash
    # Split large target lists
    uprobe run -p small_batch.yaml -g genomes.yaml
 ```
@@ -397,9 +363,7 @@ bash
 ```
 
 2. **Reduce sequence length:**
-```
-
-yaml
+```yaml
    extracts:
      target_region:
        length: 80   # Shorter sequences use less memory
@@ -423,9 +387,7 @@ yaml
 **Solutions:**
 
 1. **Check available disk space:**
-```
-
-bash
+```bash
    df -h /path/to/genome/directory
 ```
 
@@ -439,9 +401,7 @@ bash
 ```
 
 3. **Build indices manually:**
-```
-
-bash
+```bash
    # Bowtie2
    bowtie2-build /path/to/genome.fa /path/to/indices/genome
    
@@ -469,9 +429,7 @@ bash
 **Solutions:**
 
 1. **Check sequence validity:**
-```
-
-python
+```python
    # Sequences should only contain ATCG
    import re
    def check_sequence(seq):
@@ -497,9 +455,7 @@ python
 **Solutions:**
 
 1. **Verify indices exist:**
-```
-
-bash
+```bash
    ls -la /path/to/indices/
    # Should contain .bt2 files for bowtie2
 ```
@@ -513,9 +469,7 @@ bash
 ```
 
 3. **Use alternative aligner:**
-```
-
-yaml
+```yaml
    attributes:
      off_targets:
        target: main_probe
@@ -537,9 +491,7 @@ yaml
 ```
 
 2. **Build Jellyfish database:**
-```
-
-bash
+```bash
    jellyfish count -m 15 -s 1000000000 -t 8 -o genome.jf genome.fa
 ```
 
@@ -563,9 +515,7 @@ bash
 **Solutions:**
 
 1. **Check probe names match:**
-```
-
-yaml
+```yaml
    # Probe names become column names
    probes:
      my_probe:  # Creates column 'my_probe'
@@ -583,9 +533,7 @@ yaml
 ```
 
 3. **Examine raw output:**
-```
-
-bash
+```bash
    uprobe run -p protocol.yaml -g genomes.yaml --raw
    # Check _raw.csv file for all calculated values
 ```
@@ -608,9 +556,7 @@ bash
 ```
 
 2. **Look for errors in logs:**
-```
-
-bash
+```bash
    uprobe --verbose run -p protocol.yaml -g genomes.yaml 2>&1 | tee log.txt
 ```
 
@@ -627,9 +573,7 @@ bash
 ### Check Logs
 
 Always run with verbose output for troubleshooting:
-```
-
-bash
+```bash
 uprobe --verbose run -p protocol.yaml -g genomes.yaml 2>&1 | tee uprobe.log
 ```
 

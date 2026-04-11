@@ -32,9 +32,7 @@ These options are available for all commands:
    Show help message and exit.
 
 Example:
-```
-
-bash
+```bash
 uprobe --version
 uprobe --verbose run --help
 uprobe --quiet validate-targets -p protocol.yaml -g genomes.yaml
@@ -99,9 +97,7 @@ This command runs the entire pipeline:
    Number of threads for computation. Default: `10`
 
 **Examples:**
-```
-
-bash
+```bash
 # Basic run
 uprobe run -p protocol.yaml -g genomes.yaml
 
@@ -138,9 +134,7 @@ This command creates the necessary index files for sequence alignment and simila
    Number of threads for index building. Default: `10`
 
 **Examples:**
-```
-
-bash
+```bash
 # Build indices with default settings
 uprobe build-index -p protocol.yaml -g genomes.yaml
 
@@ -174,9 +168,7 @@ This command checks if all target genes specified in the protocol exist in the G
    Continue with valid targets even if some are invalid. Without this flag, the command fails if any targets are invalid.
 
 **Examples:**
-```
-
-bash
+```bash
 # Validate all targets (fail if any invalid)
 uprobe validate-targets -p protocol.yaml -g genomes.yaml
 
@@ -231,9 +223,7 @@ Creates `target_sequences.csv` in the output directory with columns:
 - `strand`: Strand orientation
 
 **Examples:**
-```
-
-bash
+```bash
 # Generate targets with default output
 uprobe generate-targets -p protocol.yaml -g genomes.yaml
 
@@ -275,9 +265,7 @@ This command takes target sequences and constructs probes according to the probe
 Creates `constructed_probes.csv` with target data plus designed probe sequences.
 
 **Examples:**
-```
-
-bash
+```bash
 # Construct probes from targets
 uprobe construct-probes -p protocol.yaml -g genomes.yaml \
   --targets results/target_sequences.csv
@@ -328,9 +316,7 @@ Creates timestamped CSV files:
 - `{experiment_name}_{timestamp}_raw.csv`: Raw probes (if --raw used)
 
 **Examples:**
-```
-
-bash
+```bash
 # Post-process with filtering
 uprobe post-process -p protocol.yaml -g genomes.yaml \
   --probes combined_data.csv
@@ -366,9 +352,7 @@ This command generates barcode sequences based on the encoding configuration in 
 Creates barcode files in the specified output directory.
 
 **Examples:**
-```
-
-bash
+```bash
 # Generate barcodes
 uprobe generate-barcodes -p protocol.yaml
 
@@ -386,9 +370,7 @@ uprobe version
 ```
 
 **Example:**
-```
-
-bash
+```bash
 $ uprobe version
 U-Probe version 1.0.0
 ```
@@ -413,9 +395,7 @@ uprobe run \
 ### Step-by-Step Workflow
 
 For more control, run individual steps:
-```
-
-bash
+```bash
 # 1. Validate configuration
 uprobe validate-targets -p experiment.yaml -g genomes.yaml
 
@@ -460,9 +440,7 @@ uprobe run -p protocol.yaml -g genomes.yaml -t 16
 ### Batch Processing
 
 Process multiple protocols:
-```
-
-bash
+```bash
 #!/bin/bash
 for protocol in protocols/*.yaml; do
   name=$(basename "$protocol" .yaml)
@@ -503,9 +481,7 @@ uprobe validate-targets -p protocol.yaml -g genomes.yaml
 ### Test with Subset
 
 Test your configuration with a small subset of targets:
-```
-
-yaml
+```yaml
 # Create test_protocol.yaml with fewer targets
 targets:
   - "GAPDH"  # Just one target for testing
@@ -521,9 +497,7 @@ uprobe run -p test_protocol.yaml -g genomes.yaml
 ### Index Building
 
 Build indices once and reuse:
-```
-
-bash
+```bash
 # Build indices once
 uprobe build-index -p protocol.yaml -g genomes.yaml -t 16
 
@@ -544,9 +518,7 @@ watch -n 5 'ps aux | grep uprobe'
 ```
 
 ### Storage Considerations
-```
-
-bash
+```bash
 # Check available space before running
 df -h /path/to/output/
 

@@ -58,9 +58,7 @@ grep -o 'gene_name "[^"]*"' | sort | uniq
 ### Can I design probes for multiple species?
 
 Yes! Create separate genome configurations for each species:
-```
-
-yaml
+```yaml
 # genomes.yaml
 human_hg38:
   fasta: "/data/human/hg38.fa"
@@ -104,9 +102,7 @@ Choose based on your application:
 ### How do I design FISH probes?
 
 Basic FISH probe configuration:
-```
-
-yaml
+```yaml
 probes:
   fish_probe:
     template: "{target_binding}TTTTTT{fluorophore_site}"
@@ -145,9 +141,7 @@ probes:
 ### Can I use custom sequences in my probes?
 
 Yes! Use literal sequences in quotes:
-```
-
-yaml
+```yaml
 probes:
   custom_probe:
     template: "{primer}{target_binding}{adapter}"
@@ -186,9 +180,7 @@ probes:
 ### What quality metrics should I use?
 
 Essential attributes for most applications:
-```
-
-yaml
+```yaml
 attributes:
   gc_content:
     target: main_probe
@@ -243,9 +235,7 @@ Use `uprobe --verbose run --raw` to diagnose.
 2. **Use efficient extraction**: "exon" is faster than "gene"
 3. **Reduce expensive attributes**: Skip fold_score and kmer_count for initial designs
 4. **Process in batches**: Split large target lists
-```
-
-yaml
+```yaml
 # Fast configuration
 extracts:
   target_region:
@@ -361,9 +351,7 @@ high_quality = df[
 ### Can I use U-Probe in my Python pipeline?
 
 Yes! Use the Python API:
-```
-
-python
+```python
 from uprobe import UProbeAPI
 
 uprobe = UProbeAPI(protocol_dict, genomes_dict, output_dir)

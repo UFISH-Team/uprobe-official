@@ -23,9 +23,7 @@ human_hg38:
 ```
 
 **fish_protocol.yaml:**
-```
-
-yaml
+```yaml
 name: "Basic_FISH_Probes"
 genome: "human_hg38"
 
@@ -100,9 +98,7 @@ The results directory will contain:
 - `Basic_FISH_Probes_YYYYMMDD_HHMMSS_raw.csv` - All designed probes
 
 Example output structure:
-```
-
-text
+```text
 gene_name,target_region,fish_probe,gc_content,melting_temp
 GAPDH,ATGCGTACG...,TTTTTTCGTACGATACGTACGTACGTACGT,0.48,55.2
 ACTB,CGATCGATA...,TTTTTTTATCGATCTGCATGCATGCATGCA,0.52,58.7
@@ -217,9 +213,7 @@ post_process:
 Design probes with unique barcodes for multiplexed detection.
 
 **multiplex_protocol.yaml:**
-```
-
-yaml
+```yaml
 name: "Multiplexed_Detection"
 genome: "human_hg38"
 
@@ -424,9 +418,7 @@ post_process:
 ## Python API Examples
 
 ### Example 5: Programmatic Probe Design
-```
-
-python
+```python
 from pathlib import Path
 from uprobe import UProbeAPI
 import pandas as pd
@@ -579,9 +571,7 @@ print(f"\nTotal probes generated: {total_probes}")
 ## Running the Examples
 
 ### Command Line Execution
-```
-
-bash
+```bash
 # Download example files (if available)
 wget https://github.com/UFISH-Team/U-Probe/tree/main/examples/
 
@@ -614,13 +604,11 @@ python batch_processing.py
 ### Modify Target Lists
 
 Change the target genes in any protocol:
-```
-
-yaml
+```yaml
 targets:
-  - "YOUR_GENE1"
-  - "YOUR_GENE2"
-  - "YOUR_GENE3"
+  - "GENE1"
+  - "GENE2"
+  - "GENE3"
 ```
 
 ### Adjust Quality Filters
@@ -640,9 +628,7 @@ post_process:
 ### Add Custom Attributes
 
 Include additional quality metrics:
-```
-
-yaml
+```yaml
 attributes:
   probe_length:
     target: main_probe
