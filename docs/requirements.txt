@@ -4,7 +4,8 @@ sphinx_rtd_theme
 myst-parser
 sphinx-copybutton
 sphinx-click
-sphinx-grid
+# sphinx-grid is deprecated/unavailable, use sphinx-design instead
+sphinx-design
 
 # For API documentation
 sphinx-autodoc-typehints
@@ -17,4 +18,3 @@ click
 
 # Optional: for better rendering
 sphinx-tabs
-sphinx-design
