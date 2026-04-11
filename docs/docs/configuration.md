@@ -34,9 +34,7 @@ genome_name:
 
 **fasta** (*string*)
   Path to the genome FASTA file. This file contains the reference genome sequences.
-```
-
-yaml
+```yaml
   fasta: "/data/genomes/hg38/hg38.fa"
 ```
 
@@ -650,7 +648,7 @@ Now that you understand configuration files:
 
 1. Try the examples in [examples](./examples.md)
 2. Learn about the [cli](./cli.md) for running your configurations  
-3. Explore advanced [workflows](./workflows.md)
+3. Explore advanced workflows
 4. Check the complete configuration guide for all options
 
 ::: tip Tip

@@ -460,7 +460,7 @@ U-Probe is actively maintained with:
 - Security patches
 - Documentation improvements
 
-Check the [changelog](./changelog.md) for recent updates.
+Check the changelog for recent updates.
 
 ### Can I get commercial support?
 

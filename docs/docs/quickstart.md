@@ -372,7 +372,7 @@ For large genomes or many targets:
 Now that you've completed your first probe design:
 
 1. Explore more [examples](./examples.md) for different applications
-2. Learn about advanced [workflows](./workflows.md)
+2. Learn about advanced workflows
 3. Customize your designs using the configuration guide
 4. Integrate U-Probe into your pipelines with the [python_api](./python_api.md)
 

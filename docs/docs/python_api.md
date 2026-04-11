@@ -643,7 +643,7 @@ results = uprobe.run_workflow()
 Now that you understand the Python API:
 
 1. Explore [examples](./examples.md) for real-world use cases
-2. Check [workflows](./workflows.md) for common patterns  
+2. Check workflows for common patterns  
 3. Review the complete Python API documentation
 4. Learn about [troubleshooting](./troubleshooting.md) for common issues
 
