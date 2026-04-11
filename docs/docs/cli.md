@@ -49,6 +49,9 @@ uprobe --quiet validate-targets -p protocol.yaml -g genomes.yaml
 | `construct-probes` | Construct probes from target sequences |
 | `post-process` | Add attributes and apply filters to probes |
 | `generate-barcodes` | Generate DNA barcode sequences |
+| `generate-report` | Generate interpretation report and plots for probe results |
+| `agent` | Start an interactive session with the U-Probe AI Agent |
+| `server` | Start the U-Probe HTTP web server |
 | `version` | Show version information |
 
 ## run
@@ -360,6 +363,143 @@ uprobe generate-barcodes -p protocol.yaml
 uprobe generate-barcodes -p protocol.yaml -o my_barcodes/
 ```
 
+## generate-report
+
+Generate interpretation report and plots for probe results.
+
+```bash
+uprobe generate-report [OPTIONS]
+```
+
+This command creates detailed explanations of probe data columns and visualization plots to help users understand and select optimal probes.
+
+**Options:**
+
+**`--protocol, -p PATH`**
+
+   **Required.** Path to probe design protocol configuration file (YAML).
+
+**`--genomes, -g PATH`**
+
+   **Required.** Path to genome configuration file (YAML).
+
+**`--probes PATH`**
+
+   **Required.** Path to processed probe results CSV file.
+
+**`--output, -o PATH`**
+
+   Output directory for report files. Default: `./results`
+
+**`--no-plots`**
+
+   Skip plot generation and only create text reports.
+
+**`--pdf / --no-pdf`**
+
+   Generate PDF version of reports (default: enabled). Use `--no-pdf` to skip PDF generation and only create markdown reports.
+
+**Examples:**
+```bash
+# Generate report with default settings
+uprobe generate-report -p protocol.yaml -g genomes.yaml --probes results/filtered_probes.csv
+
+# Generate report without plots and PDF
+uprobe generate-report -p protocol.yaml -g genomes.yaml --probes results/filtered_probes.csv --no-plots --no-pdf
+```
+
+## agent
+
+Start an interactive session with the U-Probe AI Agent.
+
+```bash
+uprobe agent [OPTIONS] [REPL_ARGS]...
+```
+
+This command bootstraps the Pantheon REPL with the U-Probe team template, allowing you to design probes through natural language conversation.
+
+**Options:**
+
+**`--workspace TEXT`**
+
+   Workspace directory to install templates into. Default: `.`
+
+**`--force`**
+
+   Overwrite existing team template.
+
+**`--memory-dir TEXT`**
+
+   Pantheon memory directory.
+
+**`--log-level TEXT`**
+
+   Log level for REPL.
+
+**`--quiet`**
+
+   Disable console logging in REPL.
+
+**`--resync`**
+
+   Force pantheon.repl to resync templates.
+
+**`--chat-id TEXT`**
+
+   Resume a specific chat ID.
+
+**Examples:**
+```bash
+# Start the agent in the current workspace
+uprobe agent
+
+# Start the agent with a specific workspace and log level
+uprobe agent --workspace ./my_project --log-level DEBUG
+
+# Resume a previous chat session
+uprobe agent --chat-id 123456
+```
+
+## server
+
+Start the U-Probe HTTP web server using Granian.
+
+```bash
+uprobe server [OPTIONS]
+```
+
+This command starts the high-performance web interface and API for U-Probe.
+
+**Options:**
+
+**`--host TEXT`**
+
+   Host to bind the server to (overrides `.env`).
+
+**`--port INTEGER`**
+
+   Port to bind the server to (overrides `.env`).
+
+**`--workers INTEGER`**
+
+   Number of worker processes (overrides `.env`).
+
+**`--env [development|production]`**
+
+   Environment mode (overrides `APP_ENV`).
+
+**Examples:**
+```bash
+# Start the server on default host/port
+uprobe server
+
+# Start the server on a specific port with multiple workers
+uprobe server --port 8080 --workers 4
+
+# Start the server in production mode
+uprobe server --env production
+```
+
 ## version
 
 Show the U-Probe version information.
@@ -462,9 +602,7 @@ uprobe --verbose run -p protocol.yaml -g genomes.yaml
 ### Check Intermediate Results
 
 Save raw data to inspect intermediate steps:
-```
-
-bash
+```bash
 uprobe run -p protocol.yaml -g genomes.yaml --raw
 ```
 
@@ -561,9 +699,7 @@ echo "Results saved to $OUTPUT"
 ```
 
 ### Python Scripts
-```
-
-python
+```python
 import subprocess
 import sys
 

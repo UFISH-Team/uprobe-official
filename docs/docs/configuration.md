@@ -1,22 +1,25 @@
 # Configuration Files
 
-U-Probe uses two main YAML configuration files to define your probe design workflow. This guide explains the structure and options for both configuration files.
+U-Probe uses two main YAML configuration files to define your probe design workflow. This guide explains the structure, allowed fields, and constraints for both configuration files.
 
 ## Overview
 
 U-Probe requires two configuration files:
 
-1. **genomes.yaml** - Defines genome resources and paths
-2. **protocol.yaml** - Defines probe design parameters and workflow
+1. **genomes.yaml** - Defines reference genomes, annotations, and index paths.
+2. **protocol.yaml** - Defines probe design parameters, targets, structure, and filtering workflow.
 
-These files use YAML format, which is human-readable and easy to edit. YAML is sensitive to indentation, so use consistent spacing (preferably 2 spaces per level).
+::: tip Auto-Completion Feature
+If you omit the `attributes` and `post_process` sections in your `protocol.yaml`, U-Probe's AI Agent or core engine will **automatically generate** sensible default attributes and filtering conditions based on whether you are in RNA mode or DNA mode. For beginners, you only need to write `targets`, `extracts`, and `probes`.
+:::
+
+---
 
 ## Genomes Configuration (genomes.yaml)
 
 The genomes configuration file maps genome names to their file paths and indexing options.
 
-### Basic Structure
-
+### Structure & Fields
 
 ```yaml
 genome_name:
@@ -26,390 +29,150 @@ genome_name:
   gtf: "/path/to/annotation.gtf"
   align_index:
     - bowtie2
-    - blast
   jellyfish: false
 ```
 
-### Required Fields
+| Field | Type | Required | Description & Constraints |
+|-------|------|----------|---------------------------|
+| `fasta` | String | **Yes** | Absolute or relative path to the genome FASTA file. |
+| `gtf` | String | **Yes** | Path to the gene annotation GTF file. Required for RNA mode target extraction. |
+| `align_index` | List | No | List of aligners to build indices for. Currently supports `[bowtie2]`. |
+| `jellyfish` | Boolean | No | Whether to build a Jellyfish k-mer index. Set to `true` if you plan to use `kmer_count` attributes (highly recommended for DNA mode). Default is `false`. |
+| `description` | String | No | Human-readable description. |
+| `species` | String | No | Scientific species name. |
 
-**fasta** (*string*)
-  Path to the genome FASTA file. This file contains the reference genome sequences.
-```yaml
-  fasta: "/data/genomes/hg38/hg38.fa"
-```
-
-**gtf** (*string*)
-  Path to the gene annotation GTF file. Used for extracting gene coordinates and validating targets.
-
-  
-```yaml
-  gtf: "/data/genomes/hg38/gencode.v38.annotation.gtf"
-```
-
-**align_index** (*list*)
-  List of aligners for which to build indices. Supported options:
-  
-  - `bowtie2` - For fast sequence alignment
-  - `blast` - For sequence similarity searches
-```yaml
-  align_index:
-    - bowtie2
-    - blast
-```
-
-### Optional Fields
-
-**description** (*string*)
-  Human-readable description of the genome.
-
-  
-```yaml
-  description: "Human genome build 38 (GRCh38)"
-```
-
-**species** (*string*)
-  Scientific species name.
-```yaml
-  species: "Homo sapiens"
-```
-
-**out** (*string*)
-  Output directory for genome indices. Defaults to the same directory as FASTA file.
-
-  
-```yaml
-  out: "/data/genomes/hg38/indices"
-```
-
-**jellyfish** (*boolean*)
-  Whether to build Jellyfish k-mer index. Used for k-mer counting attributes. Default: false.
-```yaml
-  jellyfish: true
-```
-
-### Complete Example
-
-
-```yaml
-# genomes.yaml
-human_hg38:
-  description: "Human genome build 38"
-  species: "Homo sapiens"
-  fasta: "/data/genomes/hg38/hg38.fa"
-  gtf: "/data/genomes/hg38/gencode.v38.annotation.gtf"
-  out: "/data/genomes/hg38/indices"
-  align_index:
-    - bowtie2
-    - blast
-  jellyfish: true
-
-mouse_mm39:
-  description: "Mouse genome build 39"
-  species: "Mus musculus"
-  fasta: "/data/genomes/mm39/mm39.fa"
-  gtf: "/data/genomes/mm39/gencode.vM27.annotation.gtf"
-  align_index:
-    - bowtie2
-  jellyfish: false
-```
+---
 
 ## Protocol Configuration (protocol.yaml)
 
-The protocol file defines the complete probe design workflow, from target selection to final filtering.
+The protocol file defines the complete probe design workflow. U-Probe determines the design mode (RNA vs. DNA) based on the `extracts.target_region.source` field.
 
-### Basic Structure
+- **RNA Mode**: `source` is set to `exon`, `CDS`, `UTR`, or `gene`.
+- **DNA Mode**: `source` is set to `genome`.
+
+### 1. Basic Information & Targets
+
 ```yaml
 name: "ExperimentName"
-genome: "genome_name"
-targets: [...]
-extracts: {...}
-probes: {...}
-encoding: {...}
-attributes: {...}
-post_process: {...}
+genome: "human_hg38"
+targets:
+  - "GAPDH"
+  - "ACTB"
 ```
 
-### Core Sections
+| Field | Type | Required | Description & Constraints |
+|-------|------|----------|---------------------------|
+| `name` | String | **Yes** | Unique name for your experiment. Used as a prefix for output files. |
+| `genome` | String | **Yes** | Name of the genome to use. **Must exactly match** a key defined in `genomes.yaml`. |
+| `targets` | List | **Yes** | List of target gene names (must exist in GTF) or custom sequences (e.g., `- CustomSeq1: "ATGC..."`). |
 
-**name** (*string*)
-  Unique name for your experiment. Used in output filenames.
-
-  
-```yaml
-  name: "FISH_Probes_v1"
-```
-
-**genome** (*string*)
-  Name of the genome to use (must match a key in genomes.yaml).
-```yaml
-  genome: "human_hg38"
-```
-
-**targets** (*list*)
-  List of target gene names or identifiers. These must exist in your GTF file.
-
-  
-```yaml
-  targets:
-    - "GAPDH"
-    - "ACTB"
-    - "TP53"
-    - "ENSG00000141510"  # Gene IDs also supported
-```
-
-### Target Extraction (extracts)
+### 2. Target Extraction (`extracts`)
 
 Defines how to extract target sequences from the genome.
-```yaml
-extracts:
-  target_region:
-    source: "exon"        # Where to extract from
-    length: 120           # Length of each extract
-    overlap: 10           # Overlap between adjacent extracts
-```
-
-**source** options:
-
-- `exon` - Extract from exonic regions
-- `gene` - Extract from entire gene regions
-- `genome` - Extract from specified coordinates
-
-**length** (*integer*)
-  Length of each target region in base pairs.
-
-**overlap** (*integer*)
-  Overlap between adjacent extracts in base pairs.
-
-### Advanced Extraction
-
-For custom genomic coordinates:
-
 
 ```yaml
 extracts:
   target_region:
-    source: "genome"
-    length: 200
-    coordinates:
-      - "chr1:1000000-1002000"
-      - "chr2:500000-501000"
-      - "chrX:10000000-10001000"
+    source: "exon"        # RNA mode: exon, CDS, UTR. DNA mode: genome.
+    length: 40            # Length of each extracted region
+    overlap: 20           # Overlap between adjacent regions
+    # coordinates:        # Only allowed when source is "genome"
+    #   - "chr1:1000000-1002000"
 ```
 
-For gene-specific parameters:
-```yaml
-extracts:
-  target_region:
-    source: "exon"
-    length: 120
-    overlap: 20
-    gene_specific:
-      GAPDH:
-        length: 150
-        overlap: 30
-      TP53:
-        source: "gene"  # Extract from entire gene for this target
-```
+| Field | Type | Required | Description & Constraints |
+|-------|------|----------|---------------------------|
+| `source` | String | **Yes** | **RNA Mode**: `exon`, `CDS`, `UTR`, `gene`.<br>**DNA Mode**: `genome`. |
+| `length` | Integer | **Yes** | Length of each target region in base pairs. |
+| `overlap` | Integer | **Yes** | Overlap between adjacent extracts in base pairs (must be `< length`). |
+| `coordinates` | List | No | **Only allowed in DNA mode** (`source: genome`). Specifies exact genomic coordinates to extract (e.g., `chr1:1000-2000`). |
 
-### Probe Design (probes)
+### 3. Probe Design (`probes`)
 
-The core of probe design - defines probe structure and composition.
-
-### Basic Probe Structure
-
+Defines probe structure and composition using a declarative template. You can define multiple probes or probe parts.
 
 ```yaml
 probes:
-  probe_1:
-    template: "{part1}{part2}{part3}"
+  fish_probe:
+    template: "{spacer}{binding}{barcode}"
     parts:
-      part1:
-        length: 15
-        expr: "target_region[0:15]"
-      part2:
-        length: 10
-        expr: "encoding[gene_name]['barcode']"
-      part3:
-        length: 15
-        expr: "rc(target_region[15:30])"
+      spacer:
+        expr: "'TTTTTT'"
+      binding:
+        length: 40
+        expr: "rc(target_region)"
+      barcode:
+        expr: "encoding[gene_name]['fluorophore']"
 ```
 
-**template** (*string*)
-  Defines the overall structure using part names in braces.
+| Field | Type | Required | Description & Constraints |
+|-------|------|----------|---------------------------|
+| `template` | String | **Yes** | Defines the overall structure using part names enclosed in braces `{}`. |
+| `parts` | Dict | **Yes** | Defines each part referenced in the template. |
+| `length` | Integer | No | Expected length of the part. If provided, U-Probe will validate the generated sequence length. |
+| `expr` | String | **Yes** | Python-like expression to generate the sequence. |
 
-**parts** (*dict*)
-  Defines each part of the probe.
+**Allowed `expr` Syntax:**
+- Direct sequence slicing: `"target_region[0:20]"`
+- Reverse complement: `"rc(target_region)"`
+- Fixed sequences: `"'ACGTACGT'"` (Must be wrapped in single quotes inside the double quotes)
+- Barcode lookup: `"encoding[gene_name]['BC1']"`
+- Random sequences: `"random_seq(8)"`
 
-### Part Expressions
+### 4. Encoding System (`encoding`)
 
-Parts can use various expressions:
-
-**Direct sequence slicing:**
-```yaml
-part1:
-  length: 20
-  expr: "target_region[0:20]"  # First 20 bases
-```
-
-**Reverse complement:**
-
-
-```yaml
-part2:
-  length: 25
-  expr: "rc(target_region[10:35])"  # Reverse complement
-```
-
-**Fixed sequences:**
-```yaml
-primer:
-  expr: "'ACGTACGTACGT'"  # Fixed sequence (note quotes)
-```
-
-**Barcode lookup:**
-
-
-```yaml
-barcode:
-  expr: "encoding[gene_name]['BC1']"
-```
-
-**Random sequences:**
-```yaml
-spacer:
-  length: 8
-  expr: "random_seq(8)"
-```
-
-**Reference other probes:**
-
-
-```yaml
-probe_2:
-  template: "{part1}"
-  parts:
-    part1:
-      expr: "probe_1[0:15]"  # First 15 bases of probe_1
-```
-
-### Nested Templates
-
-For complex probe structures:
-```yaml
-probes:
-  main_probe:
-    template: "{binding_region}{barcode_region}"
-    parts:
-      binding_region:
-        template: "{primer}{target}"
-        parts:
-          primer:
-            expr: "'ACGTACGT'"
-          target:
-            length: 25
-            expr: "rc(target_region[0:25])"
-      barcode_region:
-        template: "TT{barcode}AA"
-        parts:
-          barcode:
-            expr: "encoding[gene_name]['BC1']"
-```
-
-### Encoding System (encoding)
-
-Maps genes to barcodes or other identifiers.
-
+Maps genes to barcodes, fluorophores, or other identifiers referenced in `expr`.
 
 ```yaml
 encoding:
   GAPDH:
-    BC1: "ACGTACGTACGTACG"
-    BC2: "TGCATGCATGCATGC"
-    fluorophore: "AAAATTTTCCCCGGGG"
+    fluorophore: "ACGTACGTACGTACGT"
   ACTB:
-    BC1: "CGATCGATCGATCGA"
-    BC2: "ATCGATCGATCGATC"
-    fluorophore: "TTTTAAAACCCCGGGG"
-  TP53:
-    BC1: "GCTAGCTAGCTAGCT"
-    BC2: "CTAGCTAGCTAGCTA"
-    fluorophore: "CCCCGGGGAAAATTTT"
+    fluorophore: "TGCATGCATGCATGCA"
 ```
 
-### Quality Attributes (attributes)
+### 5. Quality Attributes (`attributes`)
 
-Defines quality metrics to calculate for probes.
+Defines quality metrics to calculate for probes or target regions. If omitted, U-Probe auto-generates them.
+
 ```yaml
 attributes:
-  # GC content of the main probe
   probe_gc:
-    target: main_probe
+    target: fish_probe
     type: gc_content
-  
-  # Melting temperature
   probe_tm:
-    target: main_probe
+    target: fish_probe
     type: annealing_temperature
-  
-  # Self-complementarity
-  probe_selfmatch:
-    target: main_probe
-    type: self_match
-  
-  # Secondary structure propensity
-  probe_folding:
-    target: main_probe
-    type: fold_score
-  
-  # Off-target mapping
-  probe_offtargets:
-    target: main_probe
-    type: n_mapped_genes
+  target_specificity:
+    target: target_region
+    type: mapped_genes
     aligner: bowtie2
     min_mapq: 30
-  
-  # K-mer abundance
-  probe_kmers:
-    target: main_probe
-    type: kmer_count
-    kmer_length: 10
-    kmer_threshold: 100
-    kmer_file: "genome.jf"
 ```
 
-### Attribute Types
+| Field | Type | Required | Description & Constraints |
+|-------|------|----------|---------------------------|
+| `target` | String | **Yes** | The name of the probe, probe part, or `target_region` to calculate the attribute for. |
+| `type` | String | **Yes** | The type of attribute to calculate (see supported types below). |
+| `aligner` | String | No | Required for specificity types (`mapped_genes`, `mapped_sites`, `kmer_count`). |
 
-**gc_content**
-  GC content (0.0 to 1.0)
+**Supported Attribute Types:**
 
-**annealing_temperature**
-  Melting temperature in Celsius
+| Type | Description | Mode | Additional Required/Optional Fields |
+|------|-------------|------|-------------------------------------|
+| `gc_content` | GC content ratio (0.0 to 1.0) | Both | None |
+| `annealing_temperature` | Melting temperature (Tm) in Celsius | Both | None |
+| `fold_score` | Secondary structure MFE (ViennaRNA) | Both | None |
+| `self_match` | Self-complementarity score | Both | None |
+| `target_fold_score` | RNA fold MFE for target region | Both | None |
+| `target_blocks` | RNA fold blocks for target region | Both | None |
+| `mapped_genes` | Number of genes with significant alignment | **RNA** | `aligner: bowtie2`, `min_mapq` (default: 30) |
+| `mapped_sites` | Specific genomic alignment sites | **DNA** | `aligner: bowtie2` |
+| `kmer_count` | K-mer abundance in the genome | **DNA** | `aligner: jellyfish`, `kmer_len` (default: 35), `size` (default: 1G) |
 
-**self_match**
-  Self-complementarity score
+### 6. Post-Processing (`post_process`)
 
-**fold_score**
-  Secondary structure folding propensity
-
-**mapped_genes**
-  Number of genes with significant alignment
-
-  Options:
-  - `aligner`: bowtie2 or blast
-  - `min_mapq`: Minimum mapping quality
-
-**kmer_count**
-  K-mer abundance in genome
-
-  Options:
-  - `kmer_length`: Length of k-mers
-  - `kmer_threshold`: Abundance threshold
-  - `kmer_file`: Jellyfish database file
-
-### Post-Processing (post_process)
-
-Defines filtering and sorting criteria.
-
+Defines filtering, sorting, and spacing criteria. If omitted, U-Probe auto-generates default filters based on the calculated attributes.
 
 ```yaml
 post_process:
@@ -418,208 +181,21 @@ post_process:
       condition: "probe_gc >= 0.4 & probe_gc <= 0.6"
     probe_tm:
       condition: "probe_tm >= 50 & probe_tm <= 65"
-    probe_offtargets:
-      condition: "probe_offtargets <= 5"
   
   sorts:
     is_ascending:
-      - "probe_tm"
-    is_descending:
-      - "probe_gc"
       - "probe_selfmatch"
-  
-  remove_overlap:
-    location_interval: 10
-```
-
-### Filter Conditions
-
-Use pandas-style boolean expressions:
-```yaml
-filters:
-  # Range filters
-  gc_range:
-    condition: "gc_content >= 0.4 & gc_content <= 0.6"
-  
-  # Threshold filters
-  temp_min:
-    condition: "melting_temp >= 55"
-  
-  # Complex conditions
-  quality_filter:
-    condition: "(gc_content >= 0.45 & melting_temp >= 50) | self_match < 0.8"
-```
-
-### Sorting Options
-
-
-```yaml
-sorts:
-  is_ascending:    # Sort ascending (low to high)
-    - "melting_temp"
-    - "gc_content"
-  is_descending:   # Sort descending (high to low)
-    - "self_match"
-    - "fold_score"
-```
-
-### Overlap Removal
-
-Remove probes that are too close to each other:
-```yaml
-remove_overlap:
-  location_interval: 15  # Minimum distance in base pairs
-```
-
-### Complete Example
-
-
-```yaml
-# protocol.yaml - Complete FISH probe design
-name: "FISH_Experiment_2024"
-genome: "human_hg38"
-
-targets:
-  - "GAPDH"
-  - "ACTB" 
-  - "TP53"
-  - "MYC"
-
-extracts:
-  target_region:
-    source: "exon"
-    length: 120
-    overlap: 20
-
-probes:
-  fish_probe:
-    template: "{spacer}{binding}{barcode}{spacer2}"
-    parts:
-      spacer:
-        expr: "'TTTTTT'"
-      binding:
-        length: 30
-        expr: "rc(target_region[0:30])"
-      barcode:
-        expr: "encoding[gene_name]['fluorophore']"
-      spacer2:
-        expr: "'AAAAAA'"
-
-encoding:
-  GAPDH:
-    fluorophore: "ACGTACGTACGTACGTACGT"
-  ACTB:
-    fluorophore: "TGCATGCATGCATGCATGCA"
-  TP53:
-    fluorophore: "CGATCGATCGATCGATCGAT"
-  MYC:
-    fluorophore: "ATCGATCGATCGATCGATCG"
-
-attributes:
-  gc_content:
-    target: fish_probe
-    type: gc_content
-  melting_temp:
-    target: fish_probe
-    type: annealing_temperature
-  self_complementarity:
-    target: fish_probe
-    type: self_match
-  off_targets:
-    target: fish_probe
-    type: n_mapped_genes
-    aligner: bowtie2
-    min_mapq: 30
-
-post_process:
-  filters:
-    gc_content:
-      condition: "gc_content >= 0.45 & gc_content <= 0.55"
-    melting_temp:
-      condition: "melting_temp >= 55 & melting_temp <= 65"
-    self_complementarity:
-      condition: "self_complementarity < 0.7"
-    off_targets:
-      condition: "off_targets <= 3"
-  
-  sorts:
-    is_ascending:
-      - "melting_temp"
     is_descending:
-      - "gc_content"
-  
+      - "probe_tm"
+      
   remove_overlap:
-    location_interval: 15
+    location_interval: 25
 ```
 
-## Best Practices
-
-### File Organization
-
-Keep configuration files organized:
-```text
-project/
-├── config/
-│   ├── genomes.yaml
-│   ├── fish_protocol.yaml
-│   ├── pcr_protocol.yaml
-│   └── sequencing_protocol.yaml
-├── data/
-└── results/
-```
-
-### Version Control
-
-Track configuration changes:
-
-
-```yaml
-# Add version info to protocols
-name: "FISH_v2.1"
-version: "2.1"
-date: "2024-01-15"
-description: "Updated probe design with stricter filters"
-```
-
-### Validation
-
-Always validate configurations before large runs:
-```bash
-# Test with a small subset
-uprobe validate-targets -p protocol.yaml -g genomes.yaml
-```
-
-### Documentation
-
-Document your design choices:
-
-
-```yaml
-# protocol.yaml
-name: "FISH_Neuronal_Genes"
-
-# Design rationale:
-# - 30bp binding region for high specificity
-# - 6bp poly-T spacer to reduce steric hindrance
-# - Strict GC content for uniform hybridization
-# - Temperature range optimized for 37°C incubation
-
-probes:
-  fish_probe:
-    template: "{binding_region}TTTTTT{fluorophore_binding}"
-    # ... rest of configuration
-```
-
-## Next Steps
-
-Now that you understand configuration files:
-
-1. Try the examples in [examples](./examples.md)
-2. Learn about the [cli](./cli.md) for running your configurations  
-3. Explore advanced workflows
-4. Check the complete configuration guide for all options
-
-::: tip Tip
-Start with simple configurations and gradually add complexity. Use the `--raw` flag to inspect intermediate results and understand how your configuration affects the output.
-
-:::
+| Section | Description & Constraints |
+|---------|---------------------------|
+| `filters` | Dict of conditions using pandas-style boolean expressions (e.g., `condition: "gc >= 0.4 & gc <= 0.6"`). The keys must match the attribute names defined in `attributes`. |
+| `sorts` | Defines sorting priorities. Contains `is_ascending` and `is_descending` lists of attribute names. |
+| `remove_overlap` | Dict. Removes physically overlapping probes. Requires `location_interval` (Integer). |
+| `equal_space` | Dict. Downsamples probes to a desired count evenly across the target. Requires `num_probes` (Integer). |
+| `avoid_otp` | Dict. **DNA mode only**. Avoids off-target peaks. |

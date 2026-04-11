@@ -84,7 +84,11 @@ df_combined = pd.concat([
 df_final = uprobe.post_process_probes(df_combined, raw_csv=True)
 print(f"Final probes: {len(df_final)}")
 
-# Step 7: Generate barcodes (optional)
+# Step 7: Generate interpretation report and plots
+report_files = uprobe.generate_report(df_final, include_plots=True, generate_pdf=True)
+print(f"Generated reports: {report_files}")
+
+# Step 8: Generate barcodes (optional)
 barcodes = uprobe.generate_barcodes()
 ```
 
@@ -92,7 +96,7 @@ barcodes = uprobe.generate_barcodes()
 
 ### UProbeAPI Class
 
-**Current Module:** `uprobe`
+**Current Module:** `uprobe.core.api`
 
 ### Class: `UProbeAPI`
 

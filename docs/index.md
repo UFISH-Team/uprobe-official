@@ -3,24 +3,30 @@ layout: home
 
 hero:
   name: "U-Probe"
-  text: "Interactive Probe Design & Genome Management Platform"
-  tagline: Seamlessly manage genomes, design custom probes, and execute traceable workflows.
+  text: "Universal Agentic Probe Design Platform"
+  tagline: A universal agentic probe design platform for imaging-based spatial-omics. Design arbitrary probe architectures via declarative configurations and execute end-to-end multi-step design pipelines guided by LLM-based AI agents.
   actions:
     - theme: brand
-      text: Documentation
+      text: Read Docs
       link: /docs/index
     - theme: alt
       text: Launch App
       link: https://dyarchical-unrecuperative-corazon.ngrok-free.dev/
     - theme: alt
-      text: bioRxiv (Unpublished)
+      text: bioRxiv (Preprint)
       link: https://biorxiv.org/
 
 features:
-  - title: 🧬 Genome Management
-    details: Upload, list, and manage genome metadata effortlessly. Keep your biological data organized and accessible in one centralized platform.
-  - title: ⚡ Interactive Protocol Design
-    details: Design custom probe types with an intuitive UI. U-Probe provides interactive tools to visualize and refine your protocols.
-  - title: 📊 Traceable Workflows
-    details: Execute tasks with a robust queuing system. Track complete lifecycles and download self-contained HTML reports for your results.
+  - title: 🤖 AI-Driven Agentic Design
+    details: A hierarchical team of LLM-based agents interprets natural language requests, analyzes scRNA-seq data to select marker genes, and autonomously constructs configurations, significantly lowering the expertise barrier.
+  - title: 🧬 Universal Declarative Architecture
+    details: A DAG-based assembly engine and declarative YAML configuration system resolve architectural fragmentation, enabling the design of arbitrary probe structures (e.g., MERFISH, seqFISH, RCA-based) without code modifications.
+  - title: ⚡ End-to-End Automated Workflows
+    details: Provides a complete automated design pipeline from target sequence extraction, probe construction, property calculation to off-target filtering, supporting both DNA and RNA modes.
+  - title: 🔍 Advanced Specificity & Quality Filtering
+    details: Computes GC, Tm, secondary structure stability (ViennaRNA), off-target mapping (Bowtie2), and k-mer frequency (Jellyfish). Supports overlap removal and equal spacing for tiling designs.
+  - title: 📊 Rich Visual Reports
+    details: Automatically generates interactive HTML reports and PDF files containing detailed statistics and visual charts, helping you quickly evaluate and select the best probes.
+  - title: 🌐 Flexible Multi-Platform Interfaces
+    details: Provides an easy-to-use Command Line Interface (CLI), Python API, and a modern Web UI based on FastAPI to meet usage requirements across different scenarios.
 ---

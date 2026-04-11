@@ -113,8 +113,8 @@ pip install pyinstaller
 # Basic build
 pyinstaller --onefile --name uprobe \
   --hidden-import uprobe \
-  --hidden-import uprobe.api \
-  --hidden-import uprobe.cli \
+  --hidden-import uprobe.core.api \
+  --hidden-import uprobe.core.cli \
   --hidden-import click \
   --collect-all uprobe \
   uprobe/__main__.py
@@ -139,8 +139,8 @@ rm -rf build dist uprobe.spec
 # Build executable
 pyinstaller --onefile --name uprobe \
   --hidden-import uprobe \
-  --hidden-import uprobe.api \
-  --hidden-import uprobe.cli \
+  --hidden-import uprobe.core.api \
+  --hidden-import uprobe.core.cli \
   --hidden-import click \
   --collect-all uprobe \
   uprobe/__main__.py

@@ -259,7 +259,7 @@ All new code should include tests:
 
 ```python
 import pytest
-from uprobe.utils import calculate_gc_content
+from uprobe.core.utils import calculate_gc_content
 
 class TestGCContent:
     """Test GC content calculation."""

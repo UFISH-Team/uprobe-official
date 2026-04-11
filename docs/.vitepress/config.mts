@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   title: "U-Probe",
-  description: "Interactive Probe Design & Genome Management Platform",
+  description: "Universal Agentic Probe Design Platform",
   
   base: '/uprobe-official/',
 

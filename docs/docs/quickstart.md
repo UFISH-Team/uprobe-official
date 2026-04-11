@@ -357,10 +357,11 @@ For large genomes or many targets:
 
 Now that you've completed your first probe design:
 
-1. Explore more [examples](./examples.md) for different applications
-2. Learn about advanced workflows
-3. Customize your designs using the configuration guide
-4. Integrate U-Probe into your pipelines with the [python_api](./python_api.md)
+1. Try the **AI Agent** for an interactive design experience: `uprobe agent`
+2. Explore more [examples](./examples.md) for different applications
+3. Learn about advanced workflows
+4. Customize your designs using the configuration guide
+5. Integrate U-Probe into your pipelines with the [python_api](./python_api.md)
 
 ::: tip Tip
 Join our [GitHub Discussions](https://github.com/UFISH-Team/U-Probe/discussions) to share your designs and get help from the community!
