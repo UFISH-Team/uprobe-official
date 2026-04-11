@@ -1,0 +1,13 @@
+{
+  "name": "uprobe-official",
+  "version": "1.0.0",
+  "description": "U-Probe Official Website",
+  "scripts": {
+    "docs:dev": "vitepress dev site",
+    "docs:build": "vitepress build site",
+    "docs:preview": "vitepress preview site"
+  },
+  "devDependencies": {
+    "vitepress": "^1.0.0-rc.44"
+  }
+}
