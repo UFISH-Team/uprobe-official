@@ -3,8 +3,8 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "U-Probe",
   description: "Universal Agentic Probe Design Platform",
-  
-  base: '/uprobe-official/',
+
+  base: process.env.VERCEL ? '/' : '/uprobe-official/',
 
   themeConfig: {
     logo: '/uprobe.svg',
