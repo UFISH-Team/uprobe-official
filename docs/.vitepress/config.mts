@@ -7,7 +7,7 @@ export default defineConfig({
   base: process.env.VERCEL ? '/' : '/uprobe-official/',
 
   themeConfig: {
-    logo: '/uprobe.svg',
+    logo: { light: '/uprobe.svg', dark: '/uprobe-dark.svg' },
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/docs/index' },

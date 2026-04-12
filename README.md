@@ -1,4 +1,4 @@
-# 🧬 U-Probe Official Website
+# U-Probe Official Website
 
 [![License](https://img.shields.io/github/license/UFISH-Team/U-Probe)](https://github.com/UFISH-Team/U-Probe/blob/main/LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-latest-blue.svg)](https://ufish-team.github.io/uprobe-official/)
