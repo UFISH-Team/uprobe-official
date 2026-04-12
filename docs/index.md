@@ -14,7 +14,7 @@ hero:
       link: https://dyarchical-unrecuperative-corazon.ngrok-free.dev/
     - theme: alt
       text: bioRxiv (Preprint)
-      link: https://biorxiv.org/
+      link: https://www.u-probe.org/
 
 features:
   - title: 🤖 AI-Driven Agentic Design

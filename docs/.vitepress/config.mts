@@ -1,18 +1,21 @@
 import { defineConfig } from 'vitepress'
 
+const base = process.env.VERCEL ? '/' : '/uprobe-official/';
+
 export default defineConfig({
   title: "U-Probe",
   description: "Universal Agentic Probe Design Platform",
+  head: [['link', { rel: 'icon', href: `${base}uprobe.svg` }]],
 
-  base: process.env.VERCEL ? '/' : '/uprobe-official/',
+  base: base,
 
   themeConfig: {
-    logo: { light: '/uprobe.svg', dark: '/uprobe-dark.svg' },
+    logo: { light: '/uprobe.svg', dark: '/uprobe_dark.svg' },
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/docs/index' },
       { text: 'Launch App', link: 'https://dyarchical-unrecuperative-corazon.ngrok-free.dev/' },
-      { text: 'bioRxiv', link: 'https://biorxiv.org/' }
+      { text: 'bioRxiv', link: 'https://www.u-probe.org/' }
     ],
 
     sidebar: [
