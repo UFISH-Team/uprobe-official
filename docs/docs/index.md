@@ -1,4 +1,4 @@
-# 🧬 U-Probe: Universal Agentic Probe Design Platform
+# U-Probe: Universal Agentic Probe Design Platform
 
 [![License](https://img.shields.io/github/license/UFISH-Team/U-Probe)](https://github.com/UFISH-Team/U-Probe/blob/main/LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.7+-blue)](https://www.python.org/downloads/)
