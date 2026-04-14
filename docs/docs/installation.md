@@ -197,9 +197,7 @@ python -c "import uprobe; print(uprobe.__version__)"
 **Command not found: uprobe**
 
 Solution: Check if the installation directory is in your PATH:
-```
-
-bash
+```bash
 # Find where uprobe is installed
 which uprobe
 

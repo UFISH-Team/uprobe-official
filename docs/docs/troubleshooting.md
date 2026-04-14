@@ -620,28 +620,16 @@ When reporting issues, include:
 
 ## Common Error Messages
 
-.. list-table::
-   :header-rows: 1
-   :widths: 40 60
-
-   * - Error Message
-     - Solution
-   * - "Genome 'X' not found"
-     - Check genome name matches genomes.yaml key
-   * - "No targets specified"
-     - Add targets list to protocol.yaml
-   * - "Invalid expression: X"
-     - Check probe expression syntax
-   * - "Attribute calculation failed"
-     - Verify required files and indices exist
-   * - "No data to concatenate"
-     - Check that previous steps generated output
-   * - "YAML parsing error"
-     - Check indentation and syntax
-   * - "Permission denied"
-     - Check file permissions and disk space
-   * - "Index not found"
-     - Run build-index command first
+| Error Message | Solution |
+|---|---|
+| "Genome 'X' not found" | Check genome name matches genomes.yaml key |
+| "No targets specified" | Add targets list to protocol.yaml |
+| "Invalid expression: X" | Check probe expression syntax |
+| "Attribute calculation failed" | Verify required files and indices exist |
+| "No data to concatenate" | Check that previous steps generated output |
+| "YAML parsing error" | Check indentation and syntax |
+| "Permission denied" | Check file permissions and disk space |
+| "Index not found" | Run build-index command first |
 
 ## Prevention Tips
 

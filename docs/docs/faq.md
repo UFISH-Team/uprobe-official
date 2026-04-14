@@ -287,32 +287,17 @@ Standard columns include:
 
 ### How do I interpret quality metrics?
 
-.. list-table::
-   :header-rows: 1
-   :widths: 20 20 60
-
-   * - Metric
-     - Good Range
-     - Notes
-   * - gc_content
-     - 0.4-0.6
-     - Higher = stronger binding, harder to denature
-   * - melting_temp
-     - 50-65°C
-     - Depends on application temperature
-   * - self_match
-     - <0.7
-     - Lower = less secondary structure
-   * - n_mapped_genes
-     - ≤5
-     - Lower = more specific
+| Metric | Good Range | Notes |
+|---|---|---|
+| gc_content | 0.4-0.6 | Higher = stronger binding, harder to denature |
+| melting_temp | 50-65°C | Depends on application temperature |
+| self_match | <0.7 | Lower = less secondary structure |
+| n_mapped_genes | ≤5 | Lower = more specific |
 
 ### Can I export results in other formats?
 
 U-Probe outputs CSV files which can be easily converted:
-```
-
-python
+```python
 import pandas as pd
 
 # Read CSV
