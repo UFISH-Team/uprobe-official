@@ -11,10 +11,10 @@ hero:
       link: /docs/index
     - theme: alt
       text: Launch App
-      link: https://dyarchical-unrecuperative-corazon.ngrok-free.dev/
+      link: https://app.u-probe.org/
     - theme: alt
       text: bioRxiv (Preprint)
-      link: https://www.u-probe.org/
+      link: https://u-probe.org/
 
 features:
   - title: 🤖 AI-Driven Agentic Design

@@ -14,8 +14,8 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/docs/index' },
-      { text: 'Launch App', link: 'https://dyarchical-unrecuperative-corazon.ngrok-free.dev/' },
-      { text: 'bioRxiv', link: 'https://www.u-probe.org/' }
+      { text: 'Launch App', link: 'https://app.u-probe.org/' },
+      { text: 'bioRxiv', link: 'https://u-probe.org/' }
     ],
 
     sidebar: [
