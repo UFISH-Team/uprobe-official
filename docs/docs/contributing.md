@@ -63,8 +63,7 @@ When reporting bugs, please include:
 
 Use our bug report template:
 
-
-```text
+```markdown
 **Bug Description**
 A clear description of the bug.
 
@@ -143,8 +142,7 @@ For feature requests, describe:
 
 Pull Request Template:
 
-
-```text
+```markdown
 ## Description
 Brief description of changes.
 
