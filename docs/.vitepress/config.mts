@@ -15,7 +15,7 @@ export default defineConfig({
       { text: 'Home', link: '/' },
       { text: 'Documentation', link: '/docs/index' },
       { text: 'Launch App', link: 'https://app.u-probe.org/' },
-      { text: 'bioRxiv', link: 'https://u-probe.org/' }
+      { text: 'bioRxiv', link: 'https://www.biorxiv.org/content/10.64898/2026.04.12.717982v1' }
     ],
 
     sidebar: [

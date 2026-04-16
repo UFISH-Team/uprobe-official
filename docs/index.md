@@ -14,7 +14,7 @@ hero:
       link: https://app.u-probe.org/
     - theme: alt
       text: bioRxiv (Preprint)
-      link: https://u-probe.org/
+      link: hhttps://www.biorxiv.org/content/10.64898/2026.04.1717982v1/
 
 features:
   - title: 🤖 AI-Driven Agentic Design
