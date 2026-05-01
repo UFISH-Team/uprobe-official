@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 const base = process.env.VERCEL ? '/' : '/uprobe-official/';
 
 export default defineConfig({
-  title: "U-Probe",
+  title: "U-Probe | Website",
   description: "Universal Agentic Probe Design Platform",
   head: [['link', { rel: 'icon', href: `${base}uprobe.svg` }]],
 
