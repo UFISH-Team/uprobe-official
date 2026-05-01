@@ -38,8 +38,8 @@ const tutorialVideos = [
   {
     title: 'Workflow Overview',
     description: 'Design probes with the built-in workflow: choose genome and method, enter targets, submit tasks, and retrieve results.',
-    video: '/video/worklfow.mp4',
-    poster: '/video/worklfow.jpg'
+    video: '/video/workflow.mp4',
+    poster: '/video/workflow.jpg'
   },
   {
     title: 'Custom Probe Architecture',
