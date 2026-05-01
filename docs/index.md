@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: "U-Probe"
-  text: "Universal Agentic Probe Design Platform"
-  tagline: A universal agentic probe design platform for imaging-based spatial-omics. Design arbitrary probe architectures via declarative configurations and execute end-to-end multi-step design pipelines guided by LLM-based AI agents.
+  text: "Agentic Probe Design Platform"
+  tagline: Design spatial-omics probes with configurable workflows, AI agents, and automated quality control.
   actions:
     - theme: brand
       text: Read Docs
@@ -15,6 +15,20 @@ hero:
     - theme: alt
       text: bioRxiv (Preprint)
       link: https://www.biorxiv.org/content/10.64898/2026.04.12.717982v1
+
+features:
+  - title: 🤖 AI-Guided Design
+    details: Turn natural language goals into probe design workflows with LLM-based agents.
+  - title: 🧬 Custom Probe Architecture
+    details: Define MERFISH, seqFISH, RCA-based, or custom structures through declarative configs.
+  - title: ⚡ Automated Workflow
+    details: Run target extraction, construction, filtering, and report generation end to end.
+  - title: 🔍 Quality Control
+    details: Evaluate GC, Tm, secondary structure, off-target risk, and k-mer frequency.
+  - title: 📊 Visual Reports
+    details: Review interactive HTML and PDF reports for fast probe set comparison.
+  - title: 🌐 Flexible Interfaces
+    details: Use U-Probe through the Web UI, CLI, or Python API.
 ---
 
 <script setup>
@@ -23,55 +37,28 @@ import { withBase } from 'vitepress'
 const tutorialVideos = [
   {
     title: 'Workflow Overview',
-    description: 'This tutorial demonstrates how to design probes in U-Probe using the Design Workflow and a built-in probe type. It covers genome selection, method selection, target input, post-processing, task submission, and result retrieval.',
+    description: 'Design probes with the built-in workflow: choose genome and method, enter targets, submit tasks, and retrieve results.',
     video: '/video/worklfow.mp4',
     poster: '/video/worklfow.jpg'
   },
   {
     title: 'Custom Probe Architecture',
-    description: 'This tutorial introduces how to define and customize probe architectures in U-Probe, including configurable probe components, structure rules, and design settings for different experimental strategies.',
+    description: 'Customize probe components, structure rules, and design settings for different experimental strategies.',
     video: '/tutorials/tutorial-2.mp4',
     poster: '/tutorials/tutorial-2-cover.jpg'
   },
   {
     title: 'Agent-Guided Interaction',
-    description: 'This tutorial shows how to interact with the U-Probe agent, describe design requirements in natural language, refine requests, and use AI guidance throughout the probe design workflow.',
+    description: 'Describe design goals in natural language, refine requests, and use AI guidance through the workflow.',
     video: '/tutorials/tutorial-3.mp4',
     poster: '/tutorials/tutorial-3-cover.jpg'
   }
 ]
-
-const platformFeatures = [
-  {
-    title: '🤖 AI-Driven Agentic Design',
-    details: 'A hierarchical team of LLM-based agents interprets natural language requests, analyzes scRNA-seq data to select marker genes, and autonomously constructs configurations, significantly lowering the expertise barrier.'
-  },
-  {
-    title: '🧬 Universal Declarative Architecture',
-    details: 'A DAG-based assembly engine and declarative YAML configuration system resolve architectural fragmentation, enabling the design of arbitrary probe structures (e.g., MERFISH, seqFISH, RCA-based) without code modifications.'
-  },
-  {
-    title: '⚡ End-to-End Automated Workflows',
-    details: 'Provides a complete automated design pipeline from target sequence extraction, probe construction, property calculation to off-target filtering, supporting both DNA and RNA modes.'
-  },
-  {
-    title: '🔍 Advanced Specificity & Quality Filtering',
-    details: 'Computes GC, Tm, secondary structure stability (ViennaRNA), off-target mapping (Bowtie2), and k-mer frequency (Jellyfish). Supports overlap removal and equal spacing for tiling designs.'
-  },
-  {
-    title: '📊 Rich Visual Reports',
-    details: 'Automatically generates interactive HTML reports and PDF files containing detailed statistics and visual charts, helping you quickly evaluate and select the best probes.'
-  },
-  {
-    title: '🌐 Flexible Multi-Platform Interfaces',
-    details: 'Provides an easy-to-use Command Line Interface (CLI), Python API, and a modern Web UI based on FastAPI to meet usage requirements across different scenarios.'
-  }
-]
 </script>
 
-## Learn U-Probe in Minutes
+## Tutorial Videos
 
-Explore the core workflow through three short tutorials.
+Watch three focused tutorials for the main workflow, custom probe structures, and agent interaction.
 
 <div class="tutorial-grid">
   <article v-for="tutorial in tutorialVideos" :key="tutorial.title" class="tutorial-card">
@@ -88,13 +75,6 @@ Explore the core workflow through three short tutorials.
       <h3>{{ tutorial.title }}</h3>
       <p>{{ tutorial.description }}</p>
     </div>
-  </article>
-</div>
-
-<div class="feature-grid">
-  <article v-for="feature in platformFeatures" :key="feature.title" class="feature-card">
-    <h3>{{ feature.title }}</h3>
-    <p>{{ feature.details }}</p>
   </article>
 </div>
 
@@ -138,34 +118,8 @@ Explore the core workflow through three short tutorials.
   line-height: 1.65;
 }
 
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-  margin: 48px 0 0;
-}
-
-.feature-card {
-  padding: 24px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
-  background: var(--vp-c-bg-soft);
-}
-
-.feature-card h3 {
-  margin: 0 0 12px;
-  font-size: 16px;
-}
-
-.feature-card p {
-  margin: 0;
-  color: var(--vp-c-text-2);
-  line-height: 1.65;
-}
-
 @media (max-width: 960px) {
-  .tutorial-grid,
-  .feature-grid {
+  .tutorial-grid {
     grid-template-columns: 1fr;
   }
 }
