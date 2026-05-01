@@ -98,8 +98,8 @@ Watch three focused tutorials for the main workflow, custom probe structures, an
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: linear-gradient(135deg, var(--vp-c-bg-soft), var(--vp-c-bg-alt));
-  object-fit: cover;
+  background: #000;
+  object-fit: contain;
 }
 
 .tutorial-content {
