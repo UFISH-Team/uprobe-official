@@ -15,20 +15,6 @@ hero:
     - theme: alt
       text: bioRxiv (Preprint)
       link: https://www.biorxiv.org/content/10.64898/2026.04.12.717982v1
-
-features:
-  - title: 🤖 AI-Driven Agentic Design
-    details: A hierarchical team of LLM-based agents interprets natural language requests, analyzes scRNA-seq data to select marker genes, and autonomously constructs configurations, significantly lowering the expertise barrier.
-  - title: 🧬 Universal Declarative Architecture
-    details: A DAG-based assembly engine and declarative YAML configuration system resolve architectural fragmentation, enabling the design of arbitrary probe structures (e.g., MERFISH, seqFISH, RCA-based) without code modifications.
-  - title: ⚡ End-to-End Automated Workflows
-    details: Provides a complete automated design pipeline from target sequence extraction, probe construction, property calculation to off-target filtering, supporting both DNA and RNA modes.
-  - title: 🔍 Advanced Specificity & Quality Filtering
-    details: Computes GC, Tm, secondary structure stability (ViennaRNA), off-target mapping (Bowtie2), and k-mer frequency (Jellyfish). Supports overlap removal and equal spacing for tiling designs.
-  - title: 📊 Rich Visual Reports
-    details: Automatically generates interactive HTML reports and PDF files containing detailed statistics and visual charts, helping you quickly evaluate and select the best probes.
-  - title: 🌐 Flexible Multi-Platform Interfaces
-    details: Provides an easy-to-use Command Line Interface (CLI), Python API, and a modern Web UI based on FastAPI to meet usage requirements across different scenarios.
 ---
 
 <script setup>
@@ -54,6 +40,33 @@ const tutorialVideos = [
     poster: '/tutorials/tutorial-3-cover.jpg'
   }
 ]
+
+const platformFeatures = [
+  {
+    title: '🤖 AI-Driven Agentic Design',
+    details: 'A hierarchical team of LLM-based agents interprets natural language requests, analyzes scRNA-seq data to select marker genes, and autonomously constructs configurations, significantly lowering the expertise barrier.'
+  },
+  {
+    title: '🧬 Universal Declarative Architecture',
+    details: 'A DAG-based assembly engine and declarative YAML configuration system resolve architectural fragmentation, enabling the design of arbitrary probe structures (e.g., MERFISH, seqFISH, RCA-based) without code modifications.'
+  },
+  {
+    title: '⚡ End-to-End Automated Workflows',
+    details: 'Provides a complete automated design pipeline from target sequence extraction, probe construction, property calculation to off-target filtering, supporting both DNA and RNA modes.'
+  },
+  {
+    title: '🔍 Advanced Specificity & Quality Filtering',
+    details: 'Computes GC, Tm, secondary structure stability (ViennaRNA), off-target mapping (Bowtie2), and k-mer frequency (Jellyfish). Supports overlap removal and equal spacing for tiling designs.'
+  },
+  {
+    title: '📊 Rich Visual Reports',
+    details: 'Automatically generates interactive HTML reports and PDF files containing detailed statistics and visual charts, helping you quickly evaluate and select the best probes.'
+  },
+  {
+    title: '🌐 Flexible Multi-Platform Interfaces',
+    details: 'Provides an easy-to-use Command Line Interface (CLI), Python API, and a modern Web UI based on FastAPI to meet usage requirements across different scenarios.'
+  }
+]
 </script>
 
 ## Learn U-Probe in Minutes
@@ -75,6 +88,13 @@ Explore the core workflow through three short tutorials.
       <h3>{{ tutorial.title }}</h3>
       <p>{{ tutorial.description }}</p>
     </div>
+  </article>
+</div>
+
+<div class="feature-grid">
+  <article v-for="feature in platformFeatures" :key="feature.title" class="feature-card">
+    <h3>{{ feature.title }}</h3>
+    <p>{{ feature.details }}</p>
   </article>
 </div>
 
@@ -118,8 +138,34 @@ Explore the core workflow through three short tutorials.
   line-height: 1.65;
 }
 
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 48px 0 0;
+}
+
+.feature-card {
+  padding: 24px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+}
+
+.feature-card h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+
+.feature-card p {
+  margin: 0;
+  color: var(--vp-c-text-2);
+  line-height: 1.65;
+}
+
 @media (max-width: 960px) {
-  .tutorial-grid {
+  .tutorial-grid,
+  .feature-grid {
     grid-template-columns: 1fr;
   }
 }
