@@ -28,14 +28,14 @@ const tutorialVideos = [
     poster: '/video/worklfow.jpg'
   },
   {
-    title: 'AI-Assisted Marker Selection',
-    description: 'Learn how the agentic workflow interprets your request and prepares marker genes for design.',
+    title: 'Custom Probe Architecture',
+    description: 'This tutorial introduces how to define and customize probe architectures in U-Probe, including configurable probe components, structure rules, and design settings for different experimental strategies.',
     video: '/tutorials/tutorial-2.mp4',
     poster: '/tutorials/tutorial-2-cover.jpg'
   },
   {
-    title: 'Review Reports and Export Results',
-    description: 'Understand the visual reports, quality metrics, and export options after a design run.',
+    title: 'Agent-Guided Interaction',
+    description: 'This tutorial shows how to interact with the U-Probe agent, describe design requirements in natural language, refine requests, and use AI guidance throughout the probe design workflow.',
     video: '/tutorials/tutorial-3.mp4',
     poster: '/tutorials/tutorial-3-cover.jpg'
   }
