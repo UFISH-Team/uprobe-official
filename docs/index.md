@@ -44,8 +44,8 @@ const tutorialVideos = [
   {
     title: 'Custom Probe Architecture',
     description: 'Customize probe components, structure rules, and design settings for different experimental strategies.',
-    video: '/tutorials/tutorial-2.mp4',
-    poster: '/tutorials/tutorial-2-cover.jpg'
+    video: '/video/custom.mp4',
+    poster: '/video/custom.jpg'
   },
   {
     title: 'Agent-Guided Interaction',
