@@ -201,8 +201,8 @@ Solution: Check if the installation directory is in your PATH:
 # Find where uprobe is installed
 which uprobe
 
-# If not found, try with python -m
-python -m uprobe --help
+# If not found, invoke the CLI module directly
+python -m uprobe.core.cli --help
 ```
 
 **Missing system dependencies**

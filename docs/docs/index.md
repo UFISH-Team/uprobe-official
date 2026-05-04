@@ -29,7 +29,7 @@ Comprehensively evaluates probe quality, supporting the calculation of:
 * **Post-processing**: Supports overlap removal and equal spacing for tiling designs.
 
 📊 **Rich Visual Reporting**
-Automatically generates interactive HTML reports and PDF files upon completion. Reports include detailed probe quality statistics, property distribution charts, and filtering result summaries, helping researchers intuitively evaluate and select the best probes.
+Automatically generates interactive HTML reports when a protocol includes a `summary` section (the CLI also auto-generates a default summary for common DNA/RNA modes). Reports include probe quality statistics, embedded plots, and filtering summaries to help researchers evaluate and select probes.
 
 🌐 **Flexible Multi-Platform Interfaces**
 * **Command Line Interface (CLI)**: Fully featured command-line interface, ideal for integration into automated scripts.
@@ -52,6 +52,10 @@ uprobe run --protocol protocol.yaml --genomes genomes.yaml --output results/
 Launch the AI assistant for interactive design:
 ```bash
 uprobe agent
+```
+Agent runs write into a session-scoped output root, for example:
+```text
+<workspace>/outputs/agent/<user>/<session>/agent_runs/<run>/
 ```
 
 Start the Web server:

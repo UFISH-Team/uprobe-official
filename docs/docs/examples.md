@@ -48,7 +48,7 @@ probes:
         length: 40
         expr: "rc(target_region)"
       fluorophore_site:
-        expr: "encoding[gene_name]['fluorophore']"
+        expr: "encoding[target]['fluorophore']"
 
 encoding:
   GAPDH:
@@ -107,7 +107,7 @@ The results directory will contain:
 
 Example output structure:
 ```text
-gene_name,target_region,fish_probe,probe_gc,probe_tm,target_specificity
+target,target_region,fish_probe,probe_gc,probe_tm,target_specificity
 GAPDH,ATGCGTACG...,TTTTTTCGTACGATACGTACGTACGTACGT,0.48,55.2,1
 ACTB,CGATCGATA...,TTTTTTTATCGATCTGCATGCATGCATGCA,0.52,58.7,2
 TP53,GCTAGCTAG...,TTTTTTCTAGCTACCGATCGATCGATCGAT,0.50,56.1,1
@@ -219,7 +219,7 @@ The results directory will contain the filtered DNA probes, evenly spaced across
 
 Example output structure:
 ```text
-gene_name,target_region,dna_probe,probe_gc,probe_tm,probe_kmer
+target,target_region,dna_probe,probe_gc,probe_tm,probe_kmer
 TargetLocus1,ATGCGTACG...,CGTACGAT...,0.50,65.2,1
 TargetLocus1,CGATCGATA...,TATCGATC...,0.48,64.7,2
 TargetLocus1,GCTAGCTAG...,CTAGCTAC...,0.52,66.1,1

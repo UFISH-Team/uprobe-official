@@ -217,13 +217,12 @@ This command extracts target sequences based on the extraction parameters in the
 
 Creates `target_sequences.csv` in the output directory with columns:
 
-- `gene_name`: Target gene identifier
-- `gene_id`: Gene ID from GTF
+- `target`: Target gene identifier
+- `probe_id`: Target-region/probe-region identifier
 - `target_region`: Extracted genomic sequence
-- `chromosome`: Chromosome location
 - `start`: Start coordinate
 - `end`: End coordinate
-- `strand`: Strand orientation
+- `sub_region`: Local interval within the source target
 
 **Examples:**
 ```bash
@@ -265,7 +264,10 @@ This command takes target sequences and constructs probes according to the probe
 
 **Output:**
 
-Creates `constructed_probes.csv` with target data plus designed probe sequences.
+Creates:
+
+- `constructed_probes.csv`: designed probe sequences only.
+- `constructed_probes_combined.csv`: target columns plus designed probe columns. Use this as the input for `post-process`.
 
 **Examples:**
 ```bash
@@ -338,13 +340,37 @@ Generate DNA barcode sequences.
 uprobe generate-barcodes [OPTIONS]
 ```
 
-This command generates barcode sequences based on the encoding configuration in the protocol. Useful for creating standardized barcode sets.
+This command generates barcode sequences with `seqwalk`. For `--strategy max_orthogonality`, `pcr`, and `sequencing`, the CLI delegates to `uprobe.core.gen.barcodes.quick_generate`.
 
 **Options:**
 
 **`--protocol, -p PATH`**
 
-   **Required.** Path to protocol configuration file.
+   Optional. Path to a YAML file containing a `barcode_generation:` block. If omitted, pass `--strategy`.
+
+**`--strategy, -s TEXT`**
+
+   Generation strategy: `max_orthogonality`, `max_size`, `pcr`, `sequencing`, or `precomputed` (`precomputed` is currently not implemented).
+
+**`--name TEXT`**
+
+   Output basename. Default: `barcodes`.
+
+**`--num-barcodes INTEGER`**
+
+   Number of barcodes to generate. Required for `max_orthogonality`, `pcr`, and `sequencing`.
+
+**`--length INTEGER`**
+
+   Barcode length. Required for `max_orthogonality` and `max_size`; defaults are used for `pcr` and `sequencing` when omitted.
+
+**`--alphabet TEXT`**
+
+   Nucleotide alphabet. Default: `ACT`.
+
+**`--gc-limits TEXT`**
+
+   Optional GC percentage limits as `min,max`, e.g. `25,75`.
 
 **`--output, -o PATH`**
 
@@ -352,14 +378,14 @@ This command generates barcode sequences based on the encoding configuration in 
 
 **Output:**
 
-Creates barcode files in the specified output directory.
+With `--save` (default), writes `{name}.csv` with a `sequence` column and `{name}.txt` with one sequence per line.
 
 **Examples:**
 ```bash
-# Generate barcodes
-uprobe generate-barcodes -p protocol.yaml
+# Generate barcodes from command-line arguments
+uprobe generate-barcodes --strategy max_orthogonality --num-barcodes 16 --length 8 --output barcodes/
 
-# Custom output directory
+# Or from a YAML file containing barcode_generation:
 uprobe generate-barcodes -p protocol.yaml -o my_barcodes/
 ```
 
@@ -397,14 +423,14 @@ This command creates detailed explanations of probe data columns and visualizati
 
 **`--pdf / --no-pdf`**
 
-   Generate PDF version of reports (default: enabled). Use `--no-pdf` to skip PDF generation and only create markdown reports.
+   Accepted for CLI compatibility, but the current API generates HTML reports only. `--pdf` logs a warning and continues with HTML output.
 
 **Examples:**
 ```bash
 # Generate report with default settings
 uprobe generate-report -p protocol.yaml -g genomes.yaml --probes results/filtered_probes.csv
 
-# Generate report without plots and PDF
+# Generate report without plots
 uprobe generate-report -p protocol.yaml -g genomes.yaml --probes results/filtered_probes.csv --no-plots --no-pdf
 ```
 
@@ -462,13 +488,13 @@ uprobe agent --chat-id 123456
 
 ## server
 
-Start the U-Probe HTTP web server using Granian.
+Start the U-Probe HTTP web server using Uvicorn.
 
 ```bash
 uprobe server [OPTIONS]
 ```
 
-This command starts the high-performance web interface and API for U-Probe.
+This command starts the FastAPI web interface and API for U-Probe.
 
 **Options:**
 
@@ -512,7 +538,7 @@ uprobe version
 **Example:**
 ```bash
 $ uprobe version
-U-Probe version 1.0.0
+U-Probe version 0.1.2
 ```
 
 ## Workflow Examples
@@ -523,13 +549,12 @@ Run everything with one command:
 
 
 ```bash
-uprobe run \
+uprobe --verbose run \
   --protocol experiment.yaml \
   --genomes genomes.yaml \
   --output results/ \
   --threads 8 \
-  --raw \
-  --verbose
+  --raw
 ```
 
 ### Step-by-Step Workflow
@@ -556,12 +581,12 @@ uprobe construct-probes \
 uprobe post-process \
   -p experiment.yaml \
   -g genomes.yaml \
-  --probes results/constructed_probes.csv \
+  --probes results/constructed_probes_combined.csv \
   -o results/ \
   --raw
 
 # 6. Generate barcodes (optional)
-uprobe generate-barcodes -p experiment.yaml -o barcodes/
+uprobe generate-barcodes --strategy max_orthogonality --num-barcodes 16 --length 8 -o barcodes/
 ```
 
 ### Parallel Processing

@@ -111,7 +111,7 @@ probes:
         length: 25
         expr: "rc(target_region[0:25])"
       fluorophore_site:
-        expr: "encoding[gene_name]['fluorophore']"
+        expr: "encoding[target]['fluorophore']"
 ```
 
 See [examples](./examples.md) for complete FISH configurations.
@@ -225,7 +225,7 @@ Common causes:
 3. **Inappropriate probe design**: Verify expressions are valid
 4. **Target region issues**: Try different extraction parameters
 
-Use `uprobe --verbose run --raw` to diagnose.
+Use `uprobe --verbose run -p protocol.yaml -g genomes.yaml --raw` to diagnose.
 
 ## Performance
 
@@ -279,7 +279,7 @@ uprobe run -p protocol.yaml -g genomes.yaml -t 16
 
 Standard columns include:
 
-- **gene_name**: Target gene identifier
+- **target**: Target gene identifier
 - **target_region**: Extracted genomic sequence
 - **[probe_name]**: Designed probe sequences
 - **[attribute_name]**: Calculated quality metrics
@@ -317,9 +317,9 @@ import pandas as pd
 
 df = pd.read_csv('results/probes.csv')
 
-# Top 5 probes per gene by melting temperature
-best_probes = (df.sort_values(['gene_name', 'melting_temp'])
-                .groupby('gene_name')
+# Top 5 probes per target by melting temperature
+best_probes = (df.sort_values(['target', 'melting_temp'])
+                .groupby('target')
                 .head(5))
 
 # Filter by multiple criteria

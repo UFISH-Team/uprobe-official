@@ -102,7 +102,7 @@ probes:
         length: 40
         expr: "rc(target_region)"
       barcode:
-        expr: "encoding[gene_name]['fluorophore']"
+        expr: "encoding[target]['fluorophore']"
 ```
 
 | Field | Type | Required | Description & Constraints |
@@ -116,8 +116,8 @@ probes:
 - Direct sequence slicing: `"target_region[0:20]"`
 - Reverse complement: `"rc(target_region)"`
 - Fixed sequences: `"'ACGTACGT'"` (Must be wrapped in single quotes inside the double quotes)
-- Barcode lookup: `"encoding[gene_name]['BC1']"`
-- Random sequences: `"random_seq(8)"`
+- Barcode lookup: `"encoding[target]['BC1']"`
+- Fixed spacer sequence: `"'TTTTTTTT'"`
 
 ### 4. Encoding System (`encoding`)
 

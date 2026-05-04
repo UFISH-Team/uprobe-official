@@ -20,7 +20,7 @@ This guide helps resolve common issues when using U-Probe.
 
 2. **Try using Python module syntax:**
 ```bash
-   python -m uprobe --help
+   python -m uprobe.core.cli --help
 ```
 
 3. **Check PATH (for --user installs):**
@@ -216,7 +216,7 @@ This guide helps resolve common issues when using U-Probe.
 
 2. **Verify targets exist:**
 ```bash
-   uprobe validate-targets -p protocol.yaml -g genomes.yaml -v
+   uprobe --verbose validate-targets -p protocol.yaml -g genomes.yaml
 ```
 
 3. **Check for gene annotation issues:**

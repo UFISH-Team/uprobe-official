@@ -84,12 +84,12 @@ df_combined = pd.concat([
 df_final = uprobe.post_process_probes(df_combined, raw_csv=True)
 print(f"Final probes: {len(df_final)}")
 
-# Step 7: Generate interpretation report and plots
-report_files = uprobe.generate_report(df_final, include_plots=True, generate_pdf=True)
-print(f"Generated reports: {report_files}")
+# Step 7: Generate interpretation report and embedded plots (HTML output)
+report_files = uprobe.generate_report(df_final, include_plots=True)
+print(f"Generated HTML reports: {report_files['html_reports']}")
 
 # Step 8: Generate barcodes (optional)
-barcodes = uprobe.generate_barcodes()
+barcodes = uprobe.quick_generate_barcodes(num_barcodes=16, length=8, alphabet="ACT")
 ```
 
 ## API Reference
@@ -154,7 +154,8 @@ U-Probe returns results as pandas DataFrames with the following structure:
 ```python
 df_targets = uprobe.generate_target_seqs()
 print(df_targets.columns)
-# ['gene_name', 'gene_id', 'target_region', 'chromosome', 'start', 'end', 'strand']
+# Typical RNA mode columns include:
+# ['probe_id', 'target', 'sub_region', 'exon_name', 'transcript_names', 'start', 'end', 'target_region', ...]
 ```
 
 **Probe DataFrame:**
@@ -170,7 +171,7 @@ print(df_probes.columns)
 ```python
 df_final = uprobe.post_process_probes(df_combined)
 print(df_final.columns)
-# ['gene_name', 'target_region', 'probe_1', 'gc_content', 'melting_temp', ...]
+# ['target', 'target_region', 'probe_1', 'gc_content', 'melting_temp', ...]
 ```
 
 ### Data Analysis and Visualization
@@ -197,8 +198,8 @@ plt.ylabel('Melting Temperature (°C)')
 plt.title('Melting Temperature vs GC Content')
 plt.show()
 
-# Probes per gene
-gene_counts = df_final['gene_name'].value_counts()
+# Probes per target
+gene_counts = df_final['target'].value_counts()
 plt.figure(figsize=(12, 6))
 gene_counts.plot(kind='bar')
 plt.title('Number of Probes per Gene')
@@ -224,8 +225,8 @@ high_quality_probes = df_final[
 
 # Select best probes per gene
 best_probes = (df_final
-               .sort_values(['gene_name', 'melting_temp'])
-               .groupby('gene_name')
+               .sort_values(['target', 'melting_temp'])
+               .groupby('target')
                .head(5)  # Top 5 probes per gene
                )
 
@@ -272,7 +273,7 @@ def create_fish_protocol(genes, experiment_name):
                         'expr': "'TTTTTT'"
                     },
                     'barcode': {
-                        'expr': "encoding[gene_name]['BC1']"
+                        'expr': "encoding[target]['BC1']"
                     }
                 }
             }
@@ -474,10 +475,11 @@ def robust_probe_design(protocol_path, genomes_path, output_path):
 %matplotlib inline
 import pandas as pd
 import matplotlib.pyplot as plt
+from pathlib import Path
 from uprobe import UProbeAPI
 
 # Interactive probe design
-uprobe = UProbeAPI("protocol.yaml", "genomes.yaml", "results")
+uprobe = UProbeAPI(Path("protocol.yaml"), Path("genomes.yaml"), Path("results"))
 df_results = uprobe.run_workflow(raw_csv=True)
 
 # Interactive visualization
@@ -497,7 +499,7 @@ axes[1,0].set_xlabel('GC Content')
 axes[1,0].set_ylabel('Melting Temperature')
 
 # Probes per gene
-gene_counts = df_results['gene_name'].value_counts()
+gene_counts = df_results['target'].value_counts()
 axes[1,1].bar(range(len(gene_counts)), gene_counts.values)
 axes[1,1].set_xticks(range(len(gene_counts)))
 axes[1,1].set_xticklabels(gene_counts.index, rotation=45)

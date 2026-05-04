@@ -70,14 +70,13 @@ probes:
     template: "{spacer}{target_binding}{barcode}"
     parts:
       spacer:
-        length: 10
-        expr: "random_seq(10)"
+        expr: "'TTTTTTTTTT'"
       target_binding:
         length: 25
         expr: "rc(target_region[0:25])"
       barcode:
         length: 15
-        expr: "encoding[gene_name]['BC1']"
+        expr: "encoding[target]['BC1']"
 
 # Barcode sequences for each gene
 encoding:
@@ -144,7 +143,7 @@ The CSV files contain your designed probes with all calculated attributes:
 
 
 ```text
-gene_name,target_region,main_probe,gc_content,melting_temp,passed_filters
+target,target_region,main_probe,gc_content,melting_temp,passed_filters
 GAPDH,ATGC...,ACGT...,0.52,58.3,True
 ACTB,CGTA...,TGCA...,0.48,55.7,True
 ...
@@ -195,7 +194,7 @@ uprobe construct-probes \
 uprobe post-process \
   --protocol protocol.yaml \
   --genomes genomes.yaml \
-  --probes results/constructed_probes.csv \
+  --probes results/constructed_probes_combined.csv \
   --output results/ \
   --raw
 ```
@@ -206,7 +205,7 @@ uprobe post-process \
 
 The output CSV files contain these key columns:
 
-- **gene_name**: Target gene identifier
+- **target**: Target gene identifier
 - **target_region**: Extracted genomic sequence
 - **[probe_name]**: Designed probe sequence(s)
 - **[attribute_name]**: Calculated quality metrics
@@ -302,7 +301,7 @@ probes:
       spacer:
         expr: "'TTTTTT'"  # Poly-T spacer
       fluorophore_binding:
-        expr: "encoding[gene_name]['fluorophore']"
+        expr: "encoding[target]['fluorophore']"
 ```
 
 ### PCR Primers
