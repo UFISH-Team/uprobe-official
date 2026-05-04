@@ -50,8 +50,8 @@ const tutorialVideos = [
   {
     title: 'Agent-Guided Interaction',
     description: 'Describe design goals in natural language, refine requests, and use AI guidance through the workflow.',
-    video: '/tutorials/tutorial-3.mp4',
-    poster: '/tutorials/tutorial-3-cover.jpg'
+    video: '/video/agent.mp4',
+    poster: '/video/agent.jpg'
   }
 ]
 </script>
